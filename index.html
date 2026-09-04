@@ -1,155 +1,594 @@
 <!DOCTYPE html>
-<!--
-  ================================================================
-  READ THIS BEFORE YOU PASTE ANYTHING
-
-  When Gemini gives you a page, you do NOT paste it into a part of
-  this file. You replace the entire file.
-
-  Click into the editor, press Ctrl+A (Cmd+A on Mac), press Delete,
-  then paste. Everything here is meant to be thrown away.
-
-  Do that only AFTER your live link works. Get the link first.
-  ================================================================
--->
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My first site</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #0d1d30;
-    --card: #142a44;
-    --line: #27466a;
-    --aqua: #6de1d7;
-    --text: #ffffff;
-    --muted: #94a9bf;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--navy);
-    color: var(--text);
-    font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-    line-height: 1.6;
-    display: flex;
-    justify-content: center;
-    padding: 6vh 20px;
-  }
-  main { width: 100%; max-width: 640px; }
-  .badge {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--aqua);
-    margin-bottom: 18px;
-  }
-  h1 {
-    font-family: "Unbounded", "Manrope", sans-serif;
-    font-weight: 800;
-    font-size: clamp(38px, 9vw, 68px);
-    letter-spacing: -0.05em;
-    line-height: 1.02;
-    margin: 0 0 8px;
-  }
-  .name {
-    font-family: "Unbounded", "Manrope", sans-serif;
-    font-weight: 600;
-    font-size: clamp(18px, 4vw, 24px);
-    letter-spacing: -0.04em;
-    color: var(--aqua);
-    margin: 0 0 24px;
-  }
-  p.lead { font-size: 18px; color: var(--muted); margin: 0 0 34px; }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 26px 28px;
-    margin-bottom: 18px;
-  }
-  .card h2 {
-    font-family: "Unbounded", "Manrope", sans-serif;
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    color: var(--aqua);
-    margin: 0 0 16px;
-  }
-  ol { margin: 0; padding-left: 20px; }
-  li { margin-bottom: 12px; color: var(--muted); }
-  li:last-child { margin-bottom: 0; }
-  li b { color: var(--text); font-weight: 700; }
-  code {
-    font-family: ui-monospace, "SF Mono", Consolas, monospace;
-    font-size: 0.92em;
-    background: #0a1727;
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    padding: 1px 6px;
-    color: var(--aqua);
-  }
-  a { color: var(--aqua); }
-  footer {
-    margin-top: 30px;
-    font-size: 14px;
-    color: #6e839a;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velo Fuel - Cycling Carb & Electrolyte Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --card-bg: #131b2e;
+      --card-border: #222f4d;
+      --accent-green: #10b981;
+      --accent-blue: #38bdf8;
+      --accent-orange: #f97316;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-dim: #64748b;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-sm: 6px;
+      --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent-green);
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+    }
+
+    p.subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 840px) {
+      .grid-layout {
+        grid-template-columns: 1.1fr 1.3fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .value-badge {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-sm);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: var(--card-border);
+      border-radius: 3px;
+      outline: none;
+      margin-top: 0.5rem;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+      transition: transform 0.1s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background-color: var(--bg-dark);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    select:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .unit-toggle {
+      display: flex;
+      background: var(--bg-dark);
+      padding: 3px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+      margin-bottom: 1.5rem;
+    }
+
+    .unit-toggle button {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .unit-toggle button.active {
+      background: var(--card-border);
+      color: var(--text-primary);
+    }
+
+    /* Output Section */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-box {
+      background: var(--bg-dark);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .summary-box.carbs::before { background: var(--accent-green); }
+    .summary-box.sodium::before { background: var(--accent-orange); }
+    .summary-box.fluid::before { background: var(--accent-blue); }
+    .summary-box.total-carbs::before { background: #a855f7; }
+
+    .box-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 0.4rem;
+    }
+
+    .box-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .box-unit {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      margin-left: 2px;
+    }
+
+    .ratio-badge {
+      font-size: 0.75rem;
+      color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      margin-top: 0.4rem;
+    }
+
+    /* Practical Strategy Breakdown */
+    .strategy-section {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .strategy-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .strategy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .strategy-item {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    .strategy-item span.icon {
+      color: var(--accent-green);
+      font-weight: bold;
+    }
+
+    .disclaimer {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: 2rem;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 <body>
-<main>
 
-  <span class="badge">Cal Poly Vibe Coding &middot; Session 01</span>
+  <div class="container">
+    <header>
+      <div class="brand">⚡ Cycling Nutrition Science</div>
+      <h1>Carb & Hydration Calculator</h1>
+      <p class="subtitle">Calculate hourly carbohydrate, fluid, and sodium intake tailored to your ride duration, intensity, and climate.</p>
+    </header>
 
-  <h1>It&rsquo;s live.</h1>
+    <div class="grid-layout">
+      <!-- INPUT CARD -->
+      <div class="card">
+        <div class="card-title">Ride Parameters</div>
 
-  <!-- Step 5: change the name below to yours, then commit. -->
-  <p class="name">Built by Lucas Scott</p>
+        <div class="unit-toggle">
+          <button type="button" id="unitMetric" class="active" onclick="setUnits('metric')">Metric (ml)</button>
+          <button type="button" id="unitImperial" onclick="setUnits('imperial')">Imperial (oz)</button>
+        </div>
 
-  <p class="lead">
-    This page is on the internet. Anyone you send this link to can open it,
-    on any device, right now. You made that happen in about five minutes.
-  </p>
+        <div class="form-group">
+          <div class="slider-header">
+            <label for="duration">Duration</label>
+            <span class="value-badge" id="durationValue">2.5 hrs</span>
+          </div>
+          <input type="range" id="duration" min="0.5" max="10" step="0.5" value="2.5">
+        </div>
 
-  <div class="card">
-    <h2>Three things, in this order</h2>
-    <ol>
-      <li><b>Put your name on it.</b> Edit <code>index.html</code>, change
-        YOUR NAME HERE above, commit, refresh this page.</li>
-      <li><b>Submit this link.</b> Go to
-        <a href="https://www.calpolyvibecoding.com/">calpolyvibecoding.com</a>,
-        make an account, and paste this URL in. That is how you get counted,
-        and how Claude seats get assigned.</li>
-      <li><b>Then build.</b> Open Gemini, get a page, and replace this entire
-        file with it.</li>
-    </ol>
+        <div class="form-group">
+          <label for="intensity">Ride Intensity / Zone</label>
+          <select id="intensity">
+            <option value="easy">Zone 1-2: Recovery / Easy Spinning</option>
+            <option value="endurance" selected>Zone 2: Steady Endurance / Base Ride</option>
+            <option value="tempo">Zone 3: Tempo / Sweetspot / Group Ride</option>
+            <option value="threshold">Zone 4+: Threshold / Hard Intervals / Race</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="climate">Climate & Temperature</label>
+          <select id="climate">
+            <option value="cool">Cool (&lt; 15°C / 60°F)</option>
+            <option value="moderate" selected>Moderate (15°C - 24°C / 60°F - 75°F)</option>
+            <option value="hot">Hot (25°C - 32°C / 76°F - 90°F)</option>
+            <option value="extreme">Extreme Heat (&gt; 32°C / 90°F)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="sweatRate">Personal Sweat Rate</label>
+          <select id="sweatRate">
+            <option value="low">Low Sweater (Light sodium loss)</option>
+            <option value="normal" selected>Moderate Sweater (Average)</option>
+            <option value="heavy">Heavy / Salty Sweater (White streaks on kit)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- OUTPUT CARD -->
+      <div class="card">
+        <div class="card-title">Nutrition Target</div>
+
+        <div class="summary-grid">
+          <div class="summary-box carbs">
+            <div class="box-label">Hourly Carbs</div>
+            <div class="box-value" id="carbsPerHour">60<span class="box-unit">g/hr</span></div>
+            <div class="ratio-badge" id="ratioRecommendation">2:1 Glucose/Fructose</div>
+          </div>
+
+          <div class="summary-box fluid">
+            <div class="box-label">Hourly Fluid</div>
+            <div class="box-value" id="fluidPerHour">600<span class="box-unit" id="fluidUnit">ml/hr</span></div>
+          </div>
+
+          <div class="summary-box sodium">
+            <div class="box-label">Hourly Sodium</div>
+            <div class="box-value" id="sodiumPerHour">600<span class="box-unit">mg/hr</span></div>
+          </div>
+
+          <div class="summary-box total-carbs">
+            <div class="box-label">Total Carbs Needed</div>
+            <div class="box-value" id="totalCarbs">150<span class="box-unit">g</span></div>
+          </div>
+        </div>
+
+        <div class="strategy-section">
+          <div class="strategy-title">💡 Fueling Mix Example (Per Hour)</div>
+          <ul class="strategy-list" id="strategyList">
+            <!-- Populated dynamically via JS -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+      *Note: Individual stomach tolerance varies. Higher carbohydrate rates (>70g/hr) require gut training and dual-source carbs (Glucose:Fructose). Test your fueling strategy during training before race day.
+    </p>
   </div>
 
-  <div class="card">
-    <h2>How to replace this page</h2>
-    <ol>
-      <li>Copy what Gemini gives you with the <b>copy button</b> on the code
-        block. Do not click and drag.</li>
-      <li>Open <code>index.html</code> here and click the pencil icon.</li>
-      <li><b>Ctrl+A</b> (<b>Cmd+A</b> on Mac), then <b>Delete</b>. All of it.
-        Yes, really.</li>
-      <li>Paste, commit, refresh.</li>
-    </ol>
-  </div>
+  <script>
+    let unitSystem = 'metric';
 
-  <footer>
-    Nothing on this page is precious. It exists so the link has something to
-    show before you have something of your own.
-  </footer>
+    const durationInput = document.getElementById('duration');
+    const durationValue = document.getElementById('durationValue');
+    const intensityInput = document.getElementById('intensity');
+    const climateInput = document.getElementById('climate');
+    const sweatRateInput = document.getElementById('sweatRate');
 
-</main>
+    const carbsPerHourEl = document.getElementById('carbsPerHour');
+    const fluidPerHourEl = document.getElementById('fluidPerHour');
+    const sodiumPerHourEl = document.getElementById('sodiumPerHour');
+    const totalCarbsEl = document.getElementById('totalCarbs');
+    const ratioBadgeEl = document.getElementById('ratioRecommendation');
+    const fluidUnitEl = document.getElementById('fluidUnit');
+    const strategyListEl = document.getElementById('strategyList');
+
+    function setUnits(system) {
+      unitSystem = system;
+      document.getElementById('unitMetric').classList.toggle('active', system === 'metric');
+      document.getElementById('unitImperial').classList.toggle('active', system === 'imperial');
+      calculate();
+    }
+
+    function calculate() {
+      const duration = parseFloat(durationInput.value);
+      const intensity = intensityInput.value;
+      const climate = climateInput.value;
+      const sweatRate = sweatRateInput.value;
+
+      durationValue.textContent = `${duration} ${duration === 1 ? 'hr' : 'hrs'}`;
+
+      let carbsPerHour = 0;
+      let ratioText = "Single Source OK";
+
+      // 1. Calculate Carbohydrates per hour
+      if (duration < 1.0) {
+        if (intensity === 'threshold') {
+          carbsPerHour = 30; // Small carbohydrate mouth-rinse or gel for short high intensity
+        } else {
+          carbsPerHour = 0; // Water is sufficient for easy < 1h rides
+        }
+      } else if (duration < 2.0) {
+        if (intensity === 'easy') carbsPerHour = 30;
+        else if (intensity === 'endurance') carbsPerHour = 45;
+        else if (intensity === 'tempo') carbsPerHour = 60;
+        else if (intensity === 'threshold') carbsPerHour = 75;
+      } else if (duration < 3.5) {
+        if (intensity === 'easy') carbsPerHour = 40;
+        else if (intensity === 'endurance') carbsPerHour = 60;
+        else if (intensity === 'tempo') carbsPerHour = 75;
+        else if (intensity === 'threshold') carbsPerHour = 90;
+      } else {
+        // Rides > 3.5 hrs
+        if (intensity === 'easy') carbsPerHour = 50;
+        else if (intensity === 'endurance') carbsPerHour = 75;
+        else if (intensity === 'tempo') carbsPerHour = 90;
+        else if (intensity === 'threshold') carbsPerHour = 100;
+      }
+
+      // Ratio suggestion
+      if (carbsPerHour > 80) {
+        ratioText = "1:0.8 Maltodextrin:Fructose";
+      } else if (carbsPerHour >= 60) {
+        ratioText = "2:1 Glucose:Fructose";
+      } else {
+        ratioText = "Standard Carbs / Food";
+      }
+
+      // 2. Calculate Fluid Intake (ml/hr)
+      let baseFluid = 500; // ml/hr base
+
+      if (climate === 'cool') baseFluid = 400;
+      else if (climate === 'moderate') baseFluid = 600;
+      else if (climate === 'hot') baseFluid = 800;
+      else if (climate === 'extreme') baseFluid = 1000;
+
+      if (intensity === 'tempo' || intensity === 'threshold') {
+        baseFluid += 100;
+      }
+
+      // 3. Calculate Sodium Intake (mg/hr)
+      let baseSodium = 500;
+
+      if (sweatRate === 'low') baseSodium = 350;
+      else if (sweatRate === 'normal') baseSodium = 600;
+      else if (sweatRate === 'heavy') baseSodium = 900;
+
+      if (climate === 'hot' || climate === 'extreme') {
+        baseSodium += 200;
+      }
+
+      // Calculations
+      const totalCarbs = Math.round(carbsPerHour * duration);
+
+      // Unit Conversions
+      let displayFluid = baseFluid;
+      let fluidUnitText = "ml/hr";
+
+      if (unitSystem === 'imperial') {
+        displayFluid = Math.round(baseFluid * 0.033814); // convert ml to fl oz
+        fluidUnitText = "oz/hr";
+      }
+
+      // DOM Updates
+      carbsPerHourEl.innerHTML = `${carbsPerHour}<span class="box-unit">g/hr</span>`;
+      ratioBadgeEl.textContent = ratioText;
+      fluidPerHourEl.innerHTML = `${displayFluid}<span class="box-unit">${fluidUnitText}</span>`;
+      sodiumPerHourEl.innerHTML = `${baseSodium}<span class="box-unit">mg/hr</span>`;
+      totalCarbsEl.innerHTML = `${totalCarbs}<span class="box-unit">g</span>`;
+
+      // Update Practical Strategy Examples
+      updateStrategy(carbsPerHour, baseFluid, baseSodium);
+    }
+
+    function updateStrategy(carbs, fluidMl, sodium) {
+      strategyListEl.innerHTML = '';
+
+      if (carbs === 0) {
+        strategyListEl.innerHTML = `
+          <li class="strategy-item"><span class="icon">✓</span> Plain water is sufficient for this short/easy duration.</li>
+          <li class="strategy-item"><span class="icon">✓</span> Have a balanced meal with carbs after your ride.</li>
+        `;
+        return;
+      }
+
+      const gelCount = Math.round((carbs / 25) * 10) / 10;
+      const bottleVolume = unitSystem === 'imperial' ? '20-24 oz' : '600-750 ml';
+
+      let items = [];
+
+      if (carbs <= 45) {
+        items.push(`1 Drink Bottle (${bottleVolume}) with mild electrolyte mix.`);
+        items.push(`Option A: ~${gelCount} Energy Gel(s) per hour.`);
+        items.push(`Option B: 1 Real food snack (e.g. 1 Banana or small energy bar).`);
+      } else if (carbs <= 75) {
+        items.push(`1 Bottle (${bottleVolume}) with 30g Carb Drink Mix + Electrolytes.`);
+        items.push(`1-2 Energy Gels (or 1 Solid Energy Bar) per hour to hit ${carbs}g.`);
+      } else {
+        items.push(`1 High-Carb Drink Mix Bottle (${bottleVolume}, ~60g carbs + sodium).`);
+        items.push(`1-2 Hydrogel / Energy Gels per hour to reach target ${carbs}g carbs.`);
+        items.push(`Sip steadily every 10-15 minutes rather than chugging at once.`);
+      }
+
+      items.forEach(text => {
+        const li = document.createElement('li');
+        li.className = 'strategy-item';
+        li.innerHTML = `<span class="icon">•</span> ${text}`;
+        strategyListEl.appendChild(li);
+      });
+    }
+
+    // Event Listeners
+    durationInput.addEventListener('input', calculate);
+    intensityInput.addEventListener('change', calculate);
+    climateInput.addEventListener('change', calculate);
+    sweatRateInput.addEventListener('change', calculate);
+
+    // Initial Calculation
+    calculate();
+  </script>
 </body>
 </html>
