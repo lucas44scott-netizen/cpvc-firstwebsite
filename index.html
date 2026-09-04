@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Velo Fuel - Cycling Carb & Electrolyte Calculator</title>
+  <title>EndureFuel - Multi-Sport Carb & Electrolyte Calculator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
       --accent-green: #10b981;
       --accent-blue: #38bdf8;
       --accent-orange: #f97316;
+      --accent-purple: #a855f7;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-dim: #64748b;
@@ -40,19 +41,19 @@
       align-items: center;
       padding: 2rem 1rem;
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+        radial-gradient(circle at 10% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
     }
 
     .container {
-      max-width: 960px;
+      max-width: 980px;
       width: 100%;
       margin: 0 auto;
     }
 
     header {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
 
     .brand {
@@ -61,7 +62,7 @@
       gap: 0.5rem;
       color: var(--accent-green);
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       margin-bottom: 0.5rem;
@@ -78,15 +79,50 @@
       background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
     p.subtitle {
       color: var(--text-secondary);
-      font-size: 1rem;
-      max-width: 580px;
+      font-size: 0.95rem;
+      max-width: 600px;
       margin: 0 auto;
       line-height: 1.5;
+    }
+
+    /* Sport Tabs */
+    .sport-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .sport-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-secondary);
+      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .sport-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--text-primary);
+    }
+
+    .sport-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(16, 185, 129, 0.2));
+      border-color: var(--accent-blue);
+      color: var(--text-primary);
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
     }
 
     .grid-layout {
@@ -110,14 +146,14 @@
     }
 
     .card-title {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: space-between;
       border-bottom: 1px solid var(--card-border);
-      padding-bottom: 1rem;
+      padding-bottom: 0.85rem;
     }
 
     .form-group {
@@ -126,8 +162,8 @@
 
     label {
       display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.8rem;
+      font-weight: 700;
       color: var(--text-secondary);
       margin-bottom: 0.5rem;
       text-transform: uppercase;
@@ -141,7 +177,7 @@
     }
 
     .value-badge {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--accent-blue);
       background: rgba(56, 189, 248, 0.1);
@@ -182,7 +218,7 @@
       border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
       color: var(--text-primary);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-family: inherit;
       outline: none;
       cursor: pointer;
@@ -199,17 +235,15 @@
       padding: 3px;
       border-radius: var(--radius-md);
       border: 1px solid var(--card-border);
-      margin-bottom: 1.5rem;
     }
 
     .unit-toggle button {
-      flex: 1;
-      padding: 0.5rem;
+      padding: 0.4rem 0.8rem;
       border: none;
       background: transparent;
       color: var(--text-secondary);
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
       transition: all 0.2s;
@@ -220,19 +254,19 @@
       color: var(--text-primary);
     }
 
-    /* Output Section */
+    /* Output Grid */
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .summary-box {
       background: var(--bg-dark);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
-      padding: 1.25rem 1rem;
+      padding: 1.1rem 0.9rem;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -250,49 +284,49 @@
     .summary-box.carbs::before { background: var(--accent-green); }
     .summary-box.sodium::before { background: var(--accent-orange); }
     .summary-box.fluid::before { background: var(--accent-blue); }
-    .summary-box.total-carbs::before { background: #a855f7; }
+    .summary-box.total-carbs::before { background: var(--accent-purple); }
 
     .box-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-secondary);
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
     }
 
     .box-value {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 800;
       color: var(--text-primary);
     }
 
     .box-unit {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 500;
       color: var(--text-dim);
       margin-left: 2px;
     }
 
     .ratio-badge {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--accent-green);
       background: rgba(16, 185, 129, 0.1);
-      padding: 0.2rem 0.5rem;
+      padding: 0.2rem 0.4rem;
       border-radius: var(--radius-sm);
       display: inline-block;
-      margin-top: 0.4rem;
+      margin-top: 0.3rem;
     }
 
     /* Practical Strategy Breakdown */
     .strategy-section {
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
       padding: 1.25rem;
     }
 
     .strategy-title {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       margin-bottom: 0.75rem;
       color: var(--text-primary);
@@ -309,9 +343,9 @@
     }
 
     .strategy-item {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
-      line-height: 1.4;
+      line-height: 1.45;
       display: flex;
       align-items: flex-start;
       gap: 0.6rem;
@@ -320,6 +354,7 @@
     .strategy-item span.icon {
       color: var(--accent-green);
       font-weight: bold;
+      flex-shrink: 0;
     }
 
     .disclaimer {
@@ -329,27 +364,50 @@
       margin-top: 2rem;
       line-height: 1.5;
     }
+
+    .elevation-field {
+      transition: all 0.3s ease;
+    }
+
+    .elevation-field.hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
     <header>
-      <div class="brand">⚡ Cycling Nutrition Science</div>
-      <h1>Carb & Hydration Calculator</h1>
-      <p class="subtitle">Calculate hourly carbohydrate, fluid, and sodium intake tailored to your ride duration, intensity, and climate.</p>
+      <div class="brand">⚡ Precision Endurance Engine</div>
+      <h1>Endurance Fuel & Electrolyte Calculator</h1>
+      <p class="subtitle">Personalized carbohydrate, hydration, and sodium strategies engineered for cycling, running, and swimming.</p>
     </header>
+
+    <!-- SPORT SELECTION TABS -->
+    <div class="sport-tabs">
+      <button type="button" class="sport-btn active" id="tabCycling" onclick="selectSport('cycling')">
+        🚴 Cycling
+      </button>
+      <button type="button" class="sport-btn" id="tabRunning" onclick="selectSport('running')">
+        🏃 Running
+      </button>
+      <button type="button" class="sport-btn" id="tabSwimming" onclick="selectSport('swimming')">
+        🏊 Swimming
+      </button>
+    </div>
 
     <div class="grid-layout">
       <!-- INPUT CARD -->
       <div class="card">
-        <div class="card-title">Ride Parameters</div>
-
-        <div class="unit-toggle">
-          <button type="button" id="unitMetric" class="active" onclick="setUnits('metric')">Metric (ml)</button>
-          <button type="button" id="unitImperial" onclick="setUnits('imperial')">Imperial (oz)</button>
+        <div class="card-title">
+          <span>Parameters</span>
+          <div class="unit-toggle">
+            <button type="button" id="unitMetric" class="active" onclick="setUnits('metric')">Metric</button>
+            <button type="button" id="unitImperial" onclick="setUnits('imperial')">Imperial</button>
+          </div>
         </div>
 
+        <!-- DURATION -->
         <div class="form-group">
           <div class="slider-header">
             <label for="duration">Duration</label>
@@ -358,39 +416,45 @@
           <input type="range" id="duration" min="0.5" max="10" step="0.5" value="2.5">
         </div>
 
+        <!-- INTENSITY -->
         <div class="form-group">
-          <label for="intensity">Ride Intensity / Zone</label>
+          <label for="intensity" id="intensityLabel">Intensity / Zone</label>
           <select id="intensity">
-            <option value="easy">Zone 1-2: Recovery / Easy Spinning</option>
-            <option value="endurance" selected>Zone 2: Steady Endurance / Base Ride</option>
-            <option value="tempo">Zone 3: Tempo / Sweetspot / Group Ride</option>
-            <option value="threshold">Zone 4+: Threshold / Hard Intervals / Race</option>
+            <!-- Dynamic options per sport -->
           </select>
         </div>
 
+        <!-- ELEVATION GAIN (Cycling & Running) -->
+        <div class="form-group elevation-field" id="elevationGroup">
+          <div class="slider-header">
+            <label for="elevation" id="elevationLabel">Elevation Gain</label>
+            <span class="value-badge" id="elevationValue">1,000 m</span>
+          </div>
+          <input type="range" id="elevation" min="0" max="4000" step="100" value="1000">
+        </div>
+
+        <!-- CLIMATE / WATER TEMP -->
         <div class="form-group">
-          <label for="climate">Climate & Temperature</label>
+          <label for="climate" id="climateLabel">Climate / Environment</label>
           <select id="climate">
-            <option value="cool">Cool (&lt; 15°C / 60°F)</option>
-            <option value="moderate" selected>Moderate (15°C - 24°C / 60°F - 75°F)</option>
-            <option value="hot">Hot (25°C - 32°C / 76°F - 90°F)</option>
-            <option value="extreme">Extreme Heat (&gt; 32°C / 90°F)</option>
+            <!-- Dynamic options per sport -->
           </select>
         </div>
 
+        <!-- SWEAT RATE -->
         <div class="form-group">
-          <label for="sweatRate">Personal Sweat Rate</label>
+          <label for="sweatRate">Sweat / Sodium Loss Rate</label>
           <select id="sweatRate">
             <option value="low">Low Sweater (Light sodium loss)</option>
             <option value="normal" selected>Moderate Sweater (Average)</option>
-            <option value="heavy">Heavy / Salty Sweater (White streaks on kit)</option>
+            <option value="heavy">Heavy / Salty Sweater (White streaks / crust)</option>
           </select>
         </div>
       </div>
 
       <!-- OUTPUT CARD -->
       <div class="card">
-        <div class="card-title">Nutrition Target</div>
+        <div class="card-title">Nutrition Strategy</div>
 
         <div class="summary-grid">
           <div class="summary-box carbs">
@@ -416,41 +480,150 @@
         </div>
 
         <div class="strategy-section">
-          <div class="strategy-title">💡 Fueling Mix Example (Per Hour)</div>
+          <div class="strategy-title" id="strategyHeader">💡 Recommended Hourly Fueling Mix</div>
           <ul class="strategy-list" id="strategyList">
-            <!-- Populated dynamically via JS -->
+            <!-- Dynamic strategy items -->
           </ul>
         </div>
       </div>
     </div>
 
     <p class="disclaimer">
-      *Note: Individual stomach tolerance varies. Higher carbohydrate rates (>70g/hr) require gut training and dual-source carbs (Glucose:Fructose). Test your fueling strategy during training before race day.
+      *Note: Individual gastrointestinal (GI) tolerance varies widely. Higher carbohydrate rates (&gt;60g/hr for running, &gt;90g/hr for cycling) require dual-source carbs (Glucose:Fructose) and gut training in practice before major race events.
     </p>
   </div>
 
   <script>
-    let unitSystem = 'metric';
+    let currentSport = 'cycling'; // 'cycling', 'running', 'swimming'
+    let unitSystem = 'metric';   // 'metric', 'imperial'
 
+    // Form elements
     const durationInput = document.getElementById('duration');
     const durationValue = document.getElementById('durationValue');
     const intensityInput = document.getElementById('intensity');
+    const intensityLabel = document.getElementById('intensityLabel');
+    const elevationGroup = document.getElementById('elevationGroup');
+    const elevationInput = document.getElementById('elevation');
+    const elevationValue = document.getElementById('elevationValue');
+    const elevationLabel = document.getElementById('elevationLabel');
     const climateInput = document.getElementById('climate');
+    const climateLabel = document.getElementById('climateLabel');
     const sweatRateInput = document.getElementById('sweatRate');
 
+    // Output elements
     const carbsPerHourEl = document.getElementById('carbsPerHour');
     const fluidPerHourEl = document.getElementById('fluidPerHour');
     const sodiumPerHourEl = document.getElementById('sodiumPerHour');
     const totalCarbsEl = document.getElementById('totalCarbs');
     const ratioBadgeEl = document.getElementById('ratioRecommendation');
-    const fluidUnitEl = document.getElementById('fluidUnit');
     const strategyListEl = document.getElementById('strategyList');
+
+    // Intensity options per sport
+    const sportIntensities = {
+      cycling: [
+        { value: 'easy', text: 'Zone 1-2: Recovery / Easy Spinning' },
+        { value: 'endurance', text: 'Zone 2: Steady Endurance / Base Ride', selected: true },
+        { value: 'tempo', text: 'Zone 3: Tempo / Sweetspot / Group Ride' },
+        { value: 'threshold', text: 'Zone 4+: Threshold / Intervals / Race' }
+      ],
+      running: [
+        { value: 'easy', text: 'Zone 1-2: Easy / Recovery Run' },
+        { value: 'endurance', text: 'Zone 2: Long Steady Run / Marathon Pace', selected: true },
+        { value: 'tempo', text: 'Zone 3: Threshold / Tempo / Half-Marathon' },
+        { value: 'threshold', text: 'Zone 4+: High Intensity / 5k-10k Pace / Intervals' }
+      ],
+      swimming: [
+        { value: 'easy', text: 'Easy Aerobic / Recovery Swim' },
+        { value: 'endurance', text: 'Moderate Distance / Pace Swim', selected: true },
+        { value: 'tempo', text: 'Hard Tempo / CSS Interval Training' },
+        { value: 'threshold', text: 'Open Water Race / High Intensity' }
+      ]
+    };
+
+    // Climate options per sport
+    const sportClimates = {
+      cycling: [
+        { value: 'cool', text: 'Cool (< 15°C / 60°F)' },
+        { value: 'moderate', text: 'Moderate (15°C - 24°C / 60°F - 75°F)', selected: true },
+        { value: 'hot', text: 'Hot (25°C - 32°C / 76°F - 90°F)' },
+        { value: 'extreme', text: 'Extreme Heat (> 32°C / 90°F)' }
+      ],
+      running: [
+        { value: 'cool', text: 'Cool (< 12°C / 54°F)' },
+        { value: 'moderate', text: 'Moderate (12°C - 22°C / 55°F - 72°F)', selected: true },
+        { value: 'hot', text: 'Hot (23°C - 30°C / 73°F - 86°F)' },
+        { value: 'extreme', text: 'Extreme Heat (> 30°C / 86°F)' }
+      ],
+      swimming: [
+        { value: 'cool', text: 'Cool Water (< 20°C / 68°F)' },
+        { value: 'moderate', text: 'Standard Pool / Moderate OW (21°C - 26°C / 70°F - 79°F)', selected: true },
+        { value: 'hot', text: 'Warm Pool / Tropical OW (> 27°C / 80°F)' }
+      ]
+    };
+
+    function selectSport(sport) {
+      currentSport = sport;
+
+      // Update Tab Styles
+      document.getElementById('tabCycling').classList.toggle('active', sport === 'cycling');
+      document.getElementById('tabRunning').classList.toggle('active', sport === 'running');
+      document.getElementById('tabSwimming').classList.toggle('active', sport === 'swimming');
+
+      // Elevation visibility (Cycling & Running only)
+      if (sport === 'swimming') {
+        elevationGroup.classList.add('hidden');
+      } else {
+        elevationGroup.classList.remove('hidden');
+      }
+
+      // Populate Intensity
+      intensityInput.innerHTML = '';
+      sportIntensities[sport].forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt.value;
+        option.textContent = opt.text;
+        if (opt.selected) option.selected = true;
+        intensityInput.appendChild(option);
+      });
+
+      // Populate Climate
+      climateInput.innerHTML = '';
+      climateLabel.textContent = sport === 'swimming' ? 'Water Temperature' : 'Climate / Temperature';
+      sportClimates[sport].forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt.value;
+        option.textContent = opt.text;
+        if (opt.selected) option.selected = true;
+        climateInput.appendChild(option);
+      });
+
+      updateElevationRange();
+      calculate();
+    }
 
     function setUnits(system) {
       unitSystem = system;
       document.getElementById('unitMetric').classList.toggle('active', system === 'metric');
       document.getElementById('unitImperial').classList.toggle('active', system === 'imperial');
+
+      updateElevationRange();
       calculate();
+    }
+
+    function updateElevationRange() {
+      const currentVal = parseFloat(elevationInput.value);
+
+      if (unitSystem === 'metric') {
+        elevationInput.min = "0";
+        elevationInput.max = "4000";
+        elevationInput.step = "100";
+        elevationLabel.textContent = "Elevation Gain (Meters)";
+      } else {
+        elevationInput.min = "0";
+        elevationInput.max = "13000";
+        elevationInput.step = "300";
+        elevationLabel.textContent = "Elevation Gain (Feet)";
+      }
     }
 
     function calculate() {
@@ -459,77 +632,132 @@
       const climate = climateInput.value;
       const sweatRate = sweatRateInput.value;
 
+      // Duration label
       durationValue.textContent = `${duration} ${duration === 1 ? 'hr' : 'hrs'}`;
 
-      let carbsPerHour = 0;
-      let ratioText = "Single Source OK";
+      // Elevation reading
+      let rawElev = parseFloat(elevationInput.value) || 0;
+      let elevMeters = unitSystem === 'metric' ? rawElev : rawElev * 0.3048;
 
-      // 1. Calculate Carbohydrates per hour
-      if (duration < 1.0) {
-        if (intensity === 'threshold') {
-          carbsPerHour = 30; // Small carbohydrate mouth-rinse or gel for short high intensity
-        } else {
-          carbsPerHour = 0; // Water is sufficient for easy < 1h rides
-        }
-      } else if (duration < 2.0) {
-        if (intensity === 'easy') carbsPerHour = 30;
-        else if (intensity === 'endurance') carbsPerHour = 45;
-        else if (intensity === 'tempo') carbsPerHour = 60;
-        else if (intensity === 'threshold') carbsPerHour = 75;
-      } else if (duration < 3.5) {
-        if (intensity === 'easy') carbsPerHour = 40;
-        else if (intensity === 'endurance') carbsPerHour = 60;
-        else if (intensity === 'tempo') carbsPerHour = 75;
-        else if (intensity === 'threshold') carbsPerHour = 90;
+      if (unitSystem === 'metric') {
+        elevationValue.textContent = `${rawElev.toLocaleString()} m`;
       } else {
-        // Rides > 3.5 hrs
-        if (intensity === 'easy') carbsPerHour = 50;
-        else if (intensity === 'endurance') carbsPerHour = 75;
-        else if (intensity === 'tempo') carbsPerHour = 90;
-        else if (intensity === 'threshold') carbsPerHour = 100;
+        elevationValue.textContent = `${rawElev.toLocaleString()} ft`;
       }
 
-      // Ratio suggestion
+      let carbsPerHour = 0;
+      let baseFluid = 500; // ml/hr
+      let baseSodium = 500; // mg/hr
+      let ratioText = "Single Source OK";
+
+      // ----------------------------------------------------------------
+      // 1. CARBOHYDRATE CALCULATION BY SPORT & INTENSITY & DURATION
+      // ----------------------------------------------------------------
+      if (currentSport === 'cycling') {
+        if (duration < 1.0) {
+          carbsPerHour = intensity === 'threshold' ? 30 : 0;
+        } else if (duration < 2.0) {
+          if (intensity === 'easy') carbsPerHour = 30;
+          else if (intensity === 'endurance') carbsPerHour = 45;
+          else if (intensity === 'tempo') carbsPerHour = 60;
+          else if (intensity === 'threshold') carbsPerHour = 75;
+        } else if (duration < 3.5) {
+          if (intensity === 'easy') carbsPerHour = 40;
+          else if (intensity === 'endurance') carbsPerHour = 60;
+          else if (intensity === 'tempo') carbsPerHour = 75;
+          else if (intensity === 'threshold') carbsPerHour = 90;
+        } else {
+          if (intensity === 'easy') carbsPerHour = 50;
+          else if (intensity === 'endurance') carbsPerHour = 75;
+          else if (intensity === 'tempo') carbsPerHour = 90;
+          else if (intensity === 'threshold') carbsPerHour = 100;
+        }
+
+        // Elevation Gain Factor for Cycling (+10-15g/hr for steep climbing)
+        const climbDensityPerHour = elevMeters / duration; // meters per hour
+        if (climbDensityPerHour > 600 && carbsPerHour > 0) carbsPerHour += 10;
+        if (climbDensityPerHour > 1000 && carbsPerHour > 0) carbsPerHour += 10;
+
+      } else if (currentSport === 'running') {
+        // Running has lower stomach tolerance due to impact/sloshing
+        if (duration < 1.0) {
+          carbsPerHour = intensity === 'threshold' ? 25 : 0;
+        } else if (duration < 2.0) {
+          if (intensity === 'easy') carbsPerHour = 25;
+          else if (intensity === 'endurance') carbsPerHour = 40;
+          else if (intensity === 'tempo') carbsPerHour = 50;
+          else if (intensity === 'threshold') carbsPerHour = 60;
+        } else {
+          if (intensity === 'easy') carbsPerHour = 35;
+          else if (intensity === 'endurance') carbsPerHour = 50;
+          else if (intensity === 'tempo') carbsPerHour = 65;
+          else if (intensity === 'threshold') carbsPerHour = 75;
+        }
+
+        // Elevation Gain Factor for Running
+        const climbDensityPerHour = elevMeters / duration;
+        if (climbDensityPerHour > 400 && carbsPerHour > 0) carbsPerHour += 10;
+
+      } else if (currentSport === 'swimming') {
+        // Swimming fueling is typically pre-swim or feeding station for open water > 1 hour
+        if (duration < 1.0) {
+          carbsPerHour = 0;
+        } else if (duration < 2.0) {
+          carbsPerHour = 30;
+        } else {
+          carbsPerHour = 50;
+        }
+      }
+
+      // Cap max carbs per hour based on physiology
+      const maxCarbCap = currentSport === 'cycling' ? 120 : (currentSport === 'running' ? 85 : 60);
+      carbsPerHour = Math.min(carbsPerHour, maxCarbCap);
+
+      // Dual Source Carbohydrate recommendation
       if (carbsPerHour > 80) {
         ratioText = "1:0.8 Maltodextrin:Fructose";
       } else if (carbsPerHour >= 60) {
         ratioText = "2:1 Glucose:Fructose";
+      } else if (carbsPerHour > 0) {
+        ratioText = "Standard Carbs";
       } else {
-        ratioText = "Standard Carbs / Food";
+        ratioText = "Water Only";
       }
 
-      // 2. Calculate Fluid Intake (ml/hr)
-      let baseFluid = 500; // ml/hr base
+      // ----------------------------------------------------------------
+      // 2. FLUID INTAKE CALCULATION
+      // ----------------------------------------------------------------
+      if (currentSport === 'swimming') {
+        if (climate === 'cool') baseFluid = 300;
+        else if (climate === 'moderate') baseFluid = 450;
+        else if (climate === 'hot') baseFluid = 650;
+      } else {
+        if (climate === 'cool') baseFluid = 400;
+        else if (climate === 'moderate') baseFluid = 600;
+        else if (climate === 'hot') baseFluid = 800;
+        else if (climate === 'extreme') baseFluid = 1000;
 
-      if (climate === 'cool') baseFluid = 400;
-      else if (climate === 'moderate') baseFluid = 600;
-      else if (climate === 'hot') baseFluid = 800;
-      else if (climate === 'extreme') baseFluid = 1000;
-
-      if (intensity === 'tempo' || intensity === 'threshold') {
-        baseFluid += 100;
+        if (intensity === 'tempo' || intensity === 'threshold') baseFluid += 100;
       }
 
-      // 3. Calculate Sodium Intake (mg/hr)
-      let baseSodium = 500;
-
+      // ----------------------------------------------------------------
+      // 3. SODIUM INTAKE CALCULATION
+      // ----------------------------------------------------------------
       if (sweatRate === 'low') baseSodium = 350;
       else if (sweatRate === 'normal') baseSodium = 600;
       else if (sweatRate === 'heavy') baseSodium = 900;
 
-      if (climate === 'hot' || climate === 'extreme') {
-        baseSodium += 200;
-      }
+      if (climate === 'hot' || climate === 'extreme') baseSodium += 200;
 
-      // Calculations
+      // Totals
       const totalCarbs = Math.round(carbsPerHour * duration);
 
-      // Unit Conversions
+      // Display Unit Conversions
       let displayFluid = baseFluid;
       let fluidUnitText = "ml/hr";
 
       if (unitSystem === 'imperial') {
-        displayFluid = Math.round(baseFluid * 0.033814); // convert ml to fl oz
+        displayFluid = Math.round(baseFluid * 0.033814); // ml to oz
         fluidUnitText = "oz/hr";
       }
 
@@ -540,43 +768,58 @@
       sodiumPerHourEl.innerHTML = `${baseSodium}<span class="box-unit">mg/hr</span>`;
       totalCarbsEl.innerHTML = `${totalCarbs}<span class="box-unit">g</span>`;
 
-      // Update Practical Strategy Examples
-      updateStrategy(carbsPerHour, baseFluid, baseSodium);
+      // Practical Fueling Mix Output
+      updateStrategyList(carbsPerHour, baseFluid, baseSodium, duration);
     }
 
-    function updateStrategy(carbs, fluidMl, sodium) {
+    function updateStrategyList(carbs, fluidMl, sodium, duration) {
       strategyListEl.innerHTML = '';
 
-      if (carbs === 0) {
-        strategyListEl.innerHTML = `
-          <li class="strategy-item"><span class="icon">✓</span> Plain water is sufficient for this short/easy duration.</li>
-          <li class="strategy-item"><span class="icon">✓</span> Have a balanced meal with carbs after your ride.</li>
-        `;
-        return;
-      }
-
-      const gelCount = Math.round((carbs / 25) * 10) / 10;
-      const bottleVolume = unitSystem === 'imperial' ? '20-24 oz' : '600-750 ml';
+      const isImperial = unitSystem === 'imperial';
+      const bottleVolume = isImperial ? '20–24 oz' : '600–750 ml';
 
       let items = [];
 
-      if (carbs <= 45) {
-        items.push(`1 Drink Bottle (${bottleVolume}) with mild electrolyte mix.`);
-        items.push(`Option A: ~${gelCount} Energy Gel(s) per hour.`);
-        items.push(`Option B: 1 Real food snack (e.g. 1 Banana or small energy bar).`);
-      } else if (carbs <= 75) {
-        items.push(`1 Bottle (${bottleVolume}) with 30g Carb Drink Mix + Electrolytes.`);
-        items.push(`1-2 Energy Gels (or 1 Solid Energy Bar) per hour to hit ${carbs}g.`);
-      } else {
-        items.push(`1 High-Carb Drink Mix Bottle (${bottleVolume}, ~60g carbs + sodium).`);
-        items.push(`1-2 Hydrogel / Energy Gels per hour to reach target ${carbs}g carbs.`);
-        items.push(`Sip steadily every 10-15 minutes rather than chugging at once.`);
+      if (currentSport === 'cycling') {
+        if (carbs === 0) {
+          items.push('Plain water or light electrolyte drink is sufficient for this duration.');
+          items.push('Consume a carbohydrate-rich post-ride meal within 45 minutes.');
+        } else if (carbs <= 45) {
+          items.push(`1 Bottle (${bottleVolume}) with electrolyte mix.`);
+          items.push(`1 Energy Gel or 1 Energy Bar / Banana per hour (~25–30g carbs).`);
+        } else if (carbs <= 75) {
+          items.push(`1 Bottle (${bottleVolume}) with 30g Carb Drink Mix + Sodium.`);
+          items.push(`1–2 Energy Gels or Chews per hour to hit the ${carbs}g target.`);
+        } else {
+          items.push(`1 High-Carb Drink Mix Bottle (~60g carbs + sodium).`);
+          items.push(`1–2 Hydrogel Energy Gels per hour to reach ${carbs}g/hr.`);
+          items.push(`Sip steadily every 10–12 minutes; do not gulp large volumes at once.`);
+        }
+      } else if (currentSport === 'running') {
+        if (carbs === 0) {
+          items.push('Water is sufficient for short easy runs. Pre-hydrate before setting out.');
+        } else if (carbs <= 45) {
+          items.push(`Carry a handheld flask or hydration vest (${isImperial ? '16-20 oz' : '500 ml'} water/electrolytes).`);
+          items.push(`Take 1-2 Hydrogel Gels per hour with water.`);
+        } else {
+          items.push(`Use liquid carbohydrate mix in a soft flask or carry isotonic gels.`);
+          items.push(`Consume 1 gel (~25g) every 20-25 minutes.`);
+          items.push(`Stick strictly to liquids & easy-digesting gels to avoid stomach sloshing.`);
+        }
+      } else if (currentSport === 'swimming') {
+        if (duration < 1.0) {
+          items.push('Drink 300-500ml water or light electrolyte drink 20 minutes before pool entry.');
+          items.push('No in-water fueling necessary for swims under 1 hour.');
+        } else {
+          items.push('Pre-fuel: Consume 1 Gel + 200ml water 15 mins prior to start.');
+          items.push('Feed Station: Pause every 30 mins for a quick liquid carb feed (25-30g) + sodium.');
+        }
       }
 
       items.forEach(text => {
         const li = document.createElement('li');
         li.className = 'strategy-item';
-        li.innerHTML = `<span class="icon">•</span> ${text}`;
+        li.innerHTML = `<span class="icon">•</span> <span>${text}</span>`;
         strategyListEl.appendChild(li);
       });
     }
@@ -584,11 +827,12 @@
     // Event Listeners
     durationInput.addEventListener('input', calculate);
     intensityInput.addEventListener('change', calculate);
+    elevationInput.addEventListener('input', calculate);
     climateInput.addEventListener('change', calculate);
     sweatRateInput.addEventListener('change', calculate);
 
-    // Initial Calculation
-    calculate();
+    // Initial setup
+    selectSport('cycling');
   </script>
 </body>
 </html>
