@@ -3,26 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EndureFuel - Multi-Sport Carb & Electrolyte Calculator</title>
+  <title>BonkProof | Precision Endurance Fueling & Hydration Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #090d16;
-      --card-bg: #131b2e;
-      --card-border: #222f4d;
-      --accent-green: #10b981;
-      --accent-blue: #38bdf8;
-      --accent-orange: #f97316;
-      --accent-purple: #a855f7;
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
+      /* Single Accent Color System */
+      --accent: #ff4f00;
+      --accent-hover: #e04500;
+      --accent-light: rgba(255, 79, 0, 0.12);
+      --accent-glow: rgba(255, 79, 0, 0.35);
+
+      /* UI Color Tokens */
+      --bg: #090d16;
+      --surface: #121826;
+      --surface-card: #182032;
+      --surface-border: #242f48;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
       --text-dim: #64748b;
-      --radius-lg: 16px;
-      --radius-md: 10px;
-      --radius-sm: 6px;
-      --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     }
 
     * {
@@ -32,807 +38,1518 @@
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem 1rem;
-      background-image: 
-        radial-gradient(circle at 10% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 85%, rgba(16, 185, 129, 0.08) 0%, transparent 40%);
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
     }
 
+    /* Container */
     .container {
-      max-width: 980px;
       width: 100%;
+      max-width: 1180px;
       margin: 0 auto;
+      padding: 0 20px;
     }
 
+    /* Header & Navigation */
     header {
-      text-align: center;
-      margin-bottom: 2rem;
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--surface-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
     }
 
     .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--accent-green);
-      font-weight: 800;
-      font-size: 0.85rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-      background: rgba(16, 185, 129, 0.1);
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      border: 1px solid rgba(16, 185, 129, 0.2);
-    }
-
-    h1 {
-      font-size: clamp(1.8rem, 4vw, 2.75rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
-    }
-
-    p.subtitle {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.5;
-    }
-
-    /* Sport Tabs */
-    .sport-tabs {
       display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
+      font-weight: 800;
+      color: #fff;
+      font-size: 1.2rem;
+      box-shadow: 0 0 15px var(--accent-glow);
     }
 
-    .sport-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-secondary);
-      padding: 0.75rem 1.5rem;
-      border-radius: 30px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title span {
+      color: var(--accent);
+    }
+
+    .nav-actions {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 12px;
+    }
+
+    /* Buttons */
+    .btn-toggle {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
       transition: all 0.2s ease;
     }
 
-    .sport-btn:hover {
-      border-color: var(--accent-blue);
-      color: var(--text-primary);
+    .btn-toggle:hover {
+      color: var(--text);
+      border-color: var(--accent);
     }
 
-    .sport-btn.active {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(16, 185, 129, 0.2));
-      border-color: var(--accent-blue);
-      color: var(--text-primary);
-      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
+    .btn-toggle.active {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-color: var(--accent);
     }
 
-    .grid-layout {
+    /* Hero Section */
+    .hero {
+      padding: 48px 0 32px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-light);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 79, 0, 0.2);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 28px;
+    }
+
+    /* Quick Preset Selector */
+    .presets-label {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    /* Main Grid Layout */
+    .app-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 32px;
+      margin-top: 24px;
     }
 
-    @media (min-width: 840px) {
-      .grid-layout {
-        grid-template-columns: 1.1fr 1.3fr;
+    @media (min-width: 992px) {
+      .app-grid {
+        grid-template-columns: 440px 1fr;
       }
     }
 
+    /* Cards & Panels */
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
       border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow);
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .card-title {
       font-size: 1.2rem;
       font-weight: 700;
-      margin-bottom: 1.25rem;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--surface-border);
+      padding-bottom: 12px;
     }
 
+    .card-title .badge-count {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    /* Form Fields */
     .form-group {
-      margin-bottom: 1.25rem;
+      margin-bottom: 20px;
     }
 
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .slider-header {
+    .form-label {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
     }
 
-    .value-badge {
-      font-size: 0.95rem;
+    .form-label .val-disp {
+      color: var(--accent);
       font-weight: 700;
-      color: var(--accent-blue);
-      background: rgba(56, 189, 248, 0.1);
-      padding: 0.2rem 0.6rem;
+    }
+
+    .sport-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .sport-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      color: var(--text-muted);
+      padding: 12px 8px;
       border-radius: var(--radius-sm);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sport-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .sport-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .sport-btn.active {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    input[type="number"], input[type="text"], select, textarea {
+      width: 100%;
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-family: var(--font-main);
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    input[type="number"]:focus, input[type="text"]:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
     }
 
     input[type="range"] {
       width: 100%;
       height: 6px;
-      background: var(--card-border);
+      background: var(--surface-card);
       border-radius: 3px;
       outline: none;
-      margin-top: 0.5rem;
+      appearance: none;
+      accent-color: var(--accent);
       cursor: pointer;
-      -webkit-appearance: none;
     }
 
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--accent-blue);
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-      transition: transform 0.1s ease;
-    }
-
-    input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
-    }
-
-    select {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      background-color: var(--bg-dark);
-      border: 1px solid var(--card-border);
+    /* Strava Wearable Sync Banner */
+    .wearable-box {
+      background: rgba(255, 79, 0, 0.05);
+      border: 1px dashed var(--accent);
       border-radius: var(--radius-md);
-      color: var(--text-primary);
-      font-size: 0.92rem;
-      font-family: inherit;
-      outline: none;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
-    select:focus {
-      border-color: var(--accent-blue);
-    }
-
-    .unit-toggle {
+      padding: 16px;
+      margin-top: 20px;
       display: flex;
-      background: var(--bg-dark);
-      padding: 3px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--card-border);
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    .unit-toggle button {
-      padding: 0.4rem 0.8rem;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-weight: 600;
+    .wearable-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wearable-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
       font-size: 0.8rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.2s;
+      font-weight: 800;
     }
 
-    .unit-toggle button.active {
-      background: var(--card-border);
-      color: var(--text-primary);
+    .wearable-text h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
     }
 
-    /* Output Grid */
-    .summary-grid {
+    .wearable-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Results Dashboard Cards */
+    .metrics-summary {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
     }
 
-    .summary-box {
-      background: var(--bg-dark);
-      border: 1px solid var(--card-border);
+    .metric-card {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
       border-radius: var(--radius-md);
-      padding: 1.1rem 0.9rem;
+      padding: 18px 14px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
 
-    .summary-box::before {
+    .metric-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       height: 3px;
+      background: var(--accent);
+      opacity: 0.8;
     }
 
-    .summary-box.carbs::before { background: var(--accent-green); }
-    .summary-box.sodium::before { background: var(--accent-orange); }
-    .summary-box.fluid::before { background: var(--accent-blue); }
-    .summary-box.total-carbs::before { background: var(--accent-purple); }
-
-    .box-label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-secondary);
-      margin-bottom: 0.3rem;
-    }
-
-    .box-value {
-      font-size: 1.5rem;
+    .metric-val {
+      font-size: 1.8rem;
       font-weight: 800;
-      color: var(--text-primary);
+      color: var(--text);
+      line-height: 1.2;
+      margin-top: 4px;
     }
 
-    .box-unit {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-dim);
-      margin-left: 2px;
-    }
-
-    .ratio-badge {
-      font-size: 0.72rem;
-      color: var(--accent-green);
-      background: rgba(16, 185, 129, 0.1);
-      padding: 0.2rem 0.4rem;
-      border-radius: var(--radius-sm);
-      display: inline-block;
-      margin-top: 0.3rem;
-    }
-
-    /* Practical Strategy Breakdown */
-    .strategy-section {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-md);
-      padding: 1.25rem;
-    }
-
-    .strategy-title {
-      font-size: 0.9rem;
+    .metric-unit {
+      font-size: 0.85rem;
+      color: var(--accent);
       font-weight: 700;
-      margin-bottom: 0.75rem;
-      color: var(--text-primary);
+    }
+
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .metric-sub {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* Environmental Warning Banner */
+    .env-alert {
+      background: var(--surface-card);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 12px;
     }
 
-    .strategy-list {
+    .env-alert strong {
+      color: var(--text);
+    }
+
+    /* Hourly Timeline Strategy */
+    .timeline-container {
+      margin-top: 24px;
+    }
+
+    .timeline-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timeline-list {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .timeline-list::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: var(--surface-border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+    }
+
+    .timeline-time {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .timeline-action {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+
+    .timeline-action ul {
       list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
+      margin-top: 6px;
     }
 
-    .strategy-item {
+    .timeline-action li {
+      color: var(--text-muted);
       font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.45;
       display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
     }
 
-    .strategy-item span.icon {
-      color: var(--accent-green);
+    .timeline-action li::before {
+      content: '•';
+      color: var(--accent);
       font-weight: bold;
-      flex-shrink: 0;
     }
 
-    .disclaimer {
+    /* Product Mixing Matrix / Converter */
+    .converter-box {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 24px;
+    }
+
+    .converter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .converter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .product-counter {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+      position: relative;
+    }
+
+    .product-counter h5 {
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .product-counter p {
       font-size: 0.75rem;
       color: var(--text-dim);
-      text-align: center;
-      margin-top: 2rem;
-      line-height: 1.5;
+      margin-bottom: 8px;
     }
 
-    .elevation-field {
-      transition: all 0.3s ease;
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
-    .elevation-field.hidden {
+    .btn-qty {
+      background: var(--surface-border);
+      color: var(--text);
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-qty:hover {
+      background: var(--accent);
+    }
+
+    .qty-val {
+      font-size: 1rem;
+      font-weight: 700;
+      min-width: 24px;
+    }
+
+    /* Add Custom Product Form */
+    .custom-product-form {
+      background: var(--surface);
+      border: 1px dashed var(--accent);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 16px;
       display: none;
+    }
+
+    .custom-product-form.active {
+      display: block;
+    }
+
+    .custom-form-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .btn-add-custom {
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-add-custom:hover {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-remove-custom {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 0.9rem;
+      line-height: 1;
+    }
+
+    .btn-remove-custom:hover {
+      color: var(--accent);
+    }
+
+    .total-tally {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--surface-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .tally-status {
+      font-weight: 700;
+    }
+
+    .tally-status.matched {
+      color: #10b981;
+    }
+
+    .tally-status.under {
+      color: var(--accent);
+    }
+
+    /* Print & Export Card */
+    .stem-card {
+      background: #000000;
+      color: #ffffff;
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-top: 24px;
+      font-family: monospace;
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .stem-header {
+      border-bottom: 1px dashed var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+    }
+
+    .stem-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    .btn-export {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-export:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Science & FAQ Section */
+    .faq-section {
+      margin-top: 56px;
+      border-top: 1px solid var(--surface-border);
+      padding-top: 40px;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .faq-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .faq-card h4 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .faq-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Print styling rules */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      header, .hero, .converter-box, .faq-section, .btn-export, .wearable-box, .presets-label, .preset-chips {
+        display: none !important;
+      }
+      .app-grid {
+        display: block !important;
+      }
+      .card {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .metric-card {
+        border: 1px solid #ddd !important;
+        background: #f9f9f9 !important;
+      }
+      .metric-val, .metric-unit, .metric-label, .timeline-time {
+        color: #000 !important;
+      }
+      .stem-card {
+        border: 2px solid #000 !important;
+        color: #000 !important;
+        background: #fff !important;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <div class="brand">⚡ Precision Endurance Engine</div>
-      <h1>Endurance Fuel & Electrolyte Calculator</h1>
-      <p class="subtitle">Personalized carbohydrate, hydration, and sodium strategies engineered for cycling, running, and swimming.</p>
-    </header>
-
-    <!-- SPORT SELECTION TABS -->
-    <div class="sport-tabs">
-      <button type="button" class="sport-btn active" id="tabCycling" onclick="selectSport('cycling')">
-        🚴 Cycling
-      </button>
-      <button type="button" class="sport-btn" id="tabRunning" onclick="selectSport('running')">
-        🏃 Running
-      </button>
-      <button type="button" class="sport-btn" id="tabSwimming" onclick="selectSport('swimming')">
-        🏊 Swimming
-      </button>
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="brand">
+          <div class="brand-icon">B</div>
+          <div class="brand-title">Bonk<span>Proof</span></div>
+        </a>
+        <div class="nav-actions">
+          <button class="btn-toggle" id="btnUnits">Imperial (mi, °F, oz)</button>
+          <button class="btn-toggle active" id="btnStravaSync">Strava / Garmin Sync</button>
+        </div>
+      </div>
     </div>
+  </header>
 
-    <div class="grid-layout">
-      <!-- INPUT CARD -->
-      <div class="card">
+  <!-- Hero Header -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Endurance Fueling &amp; Hydration Engine</div>
+      <h1>Never Bonk Again on Your Longest Days</h1>
+      <p>Precision carb, fluid, and sodium targets tailored to your workout intensity, environmental heat, and elevation profile.</p>
+
+      <div class="presets-label">Load Quick Preset Workouts:</div>
+      <div class="preset-chips">
+        <button class="chip" onclick="loadPreset('short_run')">30m Short Run</button>
+        <button class="chip" onclick="loadPreset('pool_swim')">45m Swim Set</button>
+        <button class="chip" onclick="loadPreset('marathon')">Hot Marathon</button>
+        <button class="chip" onclick="loadPreset('century')">100 Mile Gran Fondo</button>
+        <button class="chip" onclick="loadPreset('olympic')">Olympic Triathlon</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="app-grid">
+
+      <!-- LEFT COLUMN: Workout & Athlete Inputs -->
+      <section class="card">
         <div class="card-title">
-          <span>Parameters</span>
-          <div class="unit-toggle">
-            <button type="button" id="unitMetric" class="active" onclick="setUnits('metric')">Metric</button>
-            <button type="button" id="unitImperial" onclick="setUnits('imperial')">Imperial</button>
-          </div>
+          Workout Parameters
+          <span class="badge-count">Input</span>
         </div>
 
-        <!-- DURATION -->
+        <!-- Sport Type -->
         <div class="form-group">
-          <div class="slider-header">
-            <label for="duration">Duration</label>
-            <span class="value-badge" id="durationValue">2.5 hrs</span>
+          <label class="form-label">Primary Discipline</label>
+          <div class="sport-selector">
+            <button type="button" class="sport-btn active" data-sport="run" onclick="setSport('run')">
+              <svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 7.1V12h2V8.9l1.8-.8z"/></svg>
+              Run
+            </button>
+            <button type="button" class="sport-btn" data-sport="bike" onclick="setSport('bike')">
+              <svg viewBox="0 0 24 24"><path d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm14-8.5c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm-8.2-7l2.2-3.8h3.7v2h-2.3l-1.3 2.3 2.5 2.5h3.4v2h-4.3l-3.9-3.9-2.1 3.9H6v-2h1.8l2.4-4.5z"/></svg>
+              Bike
+            </button>
+            <button type="button" class="sport-btn" data-sport="swim" onclick="setSport('swim')">
+              <svg viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6l-2-2h-2l-2 2H3v2h5l1.5-1.5L11 11v8h2v-6l2.5-2.5L17 11h4V9zm-9 11c-2.5 0-4.7 1.3-6 3.2 1.3.5 2.7.8 4.2.8 2.2 0 4.3-.6 6.1-1.7-1.1-1.4-2.6-2.3-4.3-2.3z"/></svg>
+              Swim
+            </button>
+            <button type="button" class="sport-btn" data-sport="tri" onclick="setSport('tri')">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.2L18.6 19H5.4L12 6.2z"/></svg>
+              Tri / Brick
+            </button>
           </div>
-          <input type="range" id="duration" min="0.5" max="10" step="0.5" value="2.5">
         </div>
 
-        <!-- INTENSITY -->
+        <!-- Duration & Distance (Updated duration slider down to 10 mins) -->
+        <div class="input-row form-group">
+          <div>
+            <label class="form-label">Duration <span class="val-disp" id="durDisp">35m</span></label>
+            <input type="range" id="inpDuration" min="10" max="720" step="5" value="35" oninput="calculateFuel()">
+          </div>
+          <div>
+            <label class="form-label">Distance <span class="val-disp" id="distUnitLbl">Miles</span></label>
+            <input type="number" id="inpDistance" value="4.0" step="0.1" oninput="calculateFuel()">
+          </div>
+        </div>
+
+        <!-- Elevation & Temperature -->
+        <div class="input-row form-group">
+          <div>
+            <label class="form-label">Elevation Gain <span class="val-disp" id="elevUnitLbl">Feet</span></label>
+            <input type="number" id="inpElevation" value="250" step="50" oninput="calculateFuel()">
+          </div>
+          <div>
+            <label class="form-label">Temperature <span class="val-disp" id="tempDisp">72 °F</span></label>
+            <input type="range" id="inpTemp" min="40" max="105" value="72" oninput="calculateFuel()">
+          </div>
+        </div>
+
+        <!-- Effort / Intensity RPE -->
         <div class="form-group">
-          <label for="intensity" id="intensityLabel">Intensity / Zone</label>
-          <select id="intensity">
-            <!-- Dynamic options per sport -->
-          </select>
+          <label class="form-label">Target Effort / Intensity <span class="val-disp" id="rpeDisp">Zone 3 (RPE 7: Tempo/Threshold)</span></label>
+          <input type="range" id="inpRPE" min="1" max="10" value="7" oninput="calculateFuel()">
         </div>
 
-        <!-- ELEVATION GAIN (Cycling & Running) -->
-        <div class="form-group elevation-field" id="elevationGroup">
-          <div class="slider-header">
-            <label for="elevation" id="elevationLabel">Elevation Gain</label>
-            <span class="value-badge" id="elevationValue">1,000 m</span>
+        <!-- Body Weight & Sweat Rate -->
+        <div class="input-row form-group">
+          <div>
+            <label class="form-label">Athlete Weight <span class="val-disp" id="weightUnitLbl">Lbs</span></label>
+            <input type="number" id="inpWeight" value="154" step="1" oninput="calculateFuel()">
           </div>
-          <input type="range" id="elevation" min="0" max="4000" step="100" value="1000">
-        </div>
-
-        <!-- CLIMATE / WATER TEMP -->
-        <div class="form-group">
-          <label for="climate" id="climateLabel">Climate / Environment</label>
-          <select id="climate">
-            <!-- Dynamic options per sport -->
-          </select>
-        </div>
-
-        <!-- SWEAT RATE -->
-        <div class="form-group">
-          <label for="sweatRate">Sweat / Sodium Loss Rate</label>
-          <select id="sweatRate">
-            <option value="low">Low Sweater (Light sodium loss)</option>
-            <option value="normal" selected>Moderate Sweater (Average)</option>
-            <option value="heavy">Heavy / Salty Sweater (White streaks / crust)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- OUTPUT CARD -->
-      <div class="card">
-        <div class="card-title">Nutrition Strategy</div>
-
-        <div class="summary-grid">
-          <div class="summary-box carbs">
-            <div class="box-label">Hourly Carbs</div>
-            <div class="box-value" id="carbsPerHour">60<span class="box-unit">g/hr</span></div>
-            <div class="ratio-badge" id="ratioRecommendation">2:1 Glucose/Fructose</div>
-          </div>
-
-          <div class="summary-box fluid">
-            <div class="box-label">Hourly Fluid</div>
-            <div class="box-value" id="fluidPerHour">600<span class="box-unit" id="fluidUnit">ml/hr</span></div>
-          </div>
-
-          <div class="summary-box sodium">
-            <div class="box-label">Hourly Sodium</div>
-            <div class="box-value" id="sodiumPerHour">600<span class="box-unit">mg/hr</span></div>
-          </div>
-
-          <div class="summary-box total-carbs">
-            <div class="box-label">Total Carbs Needed</div>
-            <div class="box-value" id="totalCarbs">150<span class="box-unit">g</span></div>
+          <div>
+            <label class="form-label">Sweat Rate Profile</label>
+            <select id="inpSweatRate" onchange="calculateFuel()">
+              <option value="low">Light Sweater (0.6 L/hr)</option>
+              <option value="avg" selected>Moderate Sweater (1.0 L/hr)</option>
+              <option value="heavy">Heavy Sweater (1.5 L/hr)</option>
+              <option value="salty">Very Heavy / Salty Sweater (1.8 L/hr)</option>
+            </select>
           </div>
         </div>
 
-        <div class="strategy-section">
-          <div class="strategy-title" id="strategyHeader">💡 Recommended Hourly Fueling Mix</div>
-          <ul class="strategy-list" id="strategyList">
-            <!-- Dynamic strategy items -->
-          </ul>
+        <!-- Strava Simulated Status Banner -->
+        <div class="wearable-box" id="stravaBox">
+          <div class="wearable-info">
+            <div class="wearable-icon" id="wearableStatusIcon">✓</div>
+            <div class="wearable-text">
+              <h4 id="wearableStatusTitle">Wearable Sync Active</h4>
+              <p id="wearableStatusSub">Auto adjusting sweat rate &amp; baseline METs from recent Garmin/Strava activities.</p>
+            </div>
+          </div>
         </div>
-      </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: Realtime Results & Fueling Strategy -->
+      <section>
+        
+        <!-- Summary Cards -->
+        <div class="metrics-summary">
+          <div class="metric-card">
+            <div class="metric-label">Hourly Carbs</div>
+            <div class="metric-val" id="valHourlyCarbs">0</div>
+            <div class="metric-unit">grams / hour</div>
+            <div class="metric-sub" id="subCarbTotal">Total: 0g</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Hourly Fluid</div>
+            <div class="metric-val" id="valHourlyFluid">28</div>
+            <div class="metric-unit" id="unitFluid">fl oz / hour</div>
+            <div class="metric-sub" id="subFluidTotal">Total: 16 oz</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Hourly Sodium</div>
+            <div class="metric-val" id="valHourlySodium">650</div>
+            <div class="metric-unit">mg / hour</div>
+            <div class="metric-sub" id="subSodiumTotal">Total: 379 mg</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-label">Burn Estimate</div>
+            <div class="metric-val" id="valCalories">401</div>
+            <div class="metric-unit">kcal total</div>
+            <div class="metric-sub" id="subCalRate">~688 kcal/hr</div>
+          </div>
+        </div>
+
+        <!-- Dynamic Context Alert -->
+        <div class="env-alert" id="envAlertBox">
+          <div>
+            <strong>Short Duration Effort (&lt; 45 mins):</strong> Exogenous carbohydrates are optional. Focus primarily on baseline hydration and post-workout recovery intake.
+          </div>
+        </div>
+
+        <!-- Interactive Product Converter Card -->
+        <div class="card converter-box">
+          <div class="converter-header">
+            <div>
+              <div class="card-title" style="margin-bottom:0; border-bottom:none; padding-bottom:0;">
+                Nutrition Product Planner
+              </div>
+            </div>
+            <button class="btn-add-custom" onclick="toggleCustomForm()">+ Custom Product</button>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Adjust or create custom items matching your exact nutrition brand label.</p>
+
+          <!-- Add Custom Product Inline Form -->
+          <div class="custom-product-form" id="customForm">
+            <h5 style="font-size:0.85rem; margin-bottom:8px; color: var(--text);">Create Custom Gel / Mix / Chew</h5>
+            <div class="custom-form-grid">
+              <input type="text" id="custName" placeholder="Product Name (e.g. Maurten Gel 100)">
+              <input type="number" id="custCarbs" placeholder="Carbs (g)" min="0">
+              <input type="number" id="custSodium" placeholder="Sodium (mg)" min="0">
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+              <button class="btn-toggle" onclick="toggleCustomForm()">Cancel</button>
+              <button class="btn-add-custom" onclick="addCustomProduct()">Save Product</button>
+            </div>
+          </div>
+
+          <div class="converter-grid" id="converterGrid">
+            
+            <div class="product-counter" id="card-gels">
+              <h5>Energy Gels</h5>
+              <p>25g Carbs | 100mg Sodium</p>
+              <div class="qty-controls">
+                <button class="btn-qty" onclick="changeQty('gels', -1)">-</button>
+                <span class="qty-val" id="qtyGels">0</span>
+                <button class="btn-qty" onclick="changeQty('gels', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="product-counter" id="card-scoops">
+              <h5>Drink Mix Scoops</h5>
+              <p>40g Carbs | 300mg Sodium</p>
+              <div class="qty-controls">
+                <button class="btn-qty" onclick="changeQty('scoops', -1)">-</button>
+                <span class="qty-val" id="qtyScoops">0</span>
+                <button class="btn-qty" onclick="changeQty('scoops', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="product-counter" id="card-chews">
+              <h5>Chews / Stroopwafels</h5>
+              <p>20g Carbs | 50mg Sodium</p>
+              <div class="qty-controls">
+                <button class="btn-qty" onclick="changeQty('chews', -1)">-</button>
+                <span class="qty-val" id="qtyChews">0</span>
+                <button class="btn-qty" onclick="changeQty('chews', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="product-counter" id="card-tabs">
+              <h5>Electrolyte Tablets</h5>
+              <p>0g Carbs | 350mg Sodium</p>
+              <div class="qty-controls">
+                <button class="btn-qty" onclick="changeQty('tabs', -1)">-</button>
+                <span class="qty-val" id="qtyTabs">1</span>
+                <button class="btn-qty" onclick="changeQty('tabs', 1)">+</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="total-tally">
+            <div>
+              Planned Hourly Intake: <strong id="tallyCarbs">0g</strong> Carbs / <strong id="tallySodium">350mg</strong> Sodium
+            </div>
+            <div class="tally-status" id="tallyStatusText">Targets Matched</div>
+          </div>
+        </div>
+
+        <!-- Hour by Hour Timeline -->
+        <div class="card timeline-container">
+          <div class="timeline-title">
+            Execution Timeline Strategy
+          </div>
+
+          <div class="timeline-list" id="timelineList">
+            <!-- Dynamically populated via Javascript -->
+          </div>
+        </div>
+
+        <!-- Stem Fuel Card Preview -->
+        <div class="stem-card" id="stemCard">
+          <div class="stem-header">Race Stem / Wrist Fuel Card</div>
+          <div class="stem-row"><span>SPORT:</span><span id="cardSport">RUN</span></div>
+          <div class="stem-row"><span>HOURLY CARBS:</span><span id="cardCarbs">0g/hr</span></div>
+          <div class="stem-row"><span>HOURLY FLUID:</span><span id="cardFluid">28 oz/hr</span></div>
+          <div class="stem-row"><span>HOURLY SODIUM:</span><span id="cardSodium">650 mg/hr</span></div>
+          <div class="stem-row"><span>TIMING INTERVAL:</span><span>Sip q 10m / Fuel q 20m</span></div>
+        </div>
+
+        <button class="btn-export" onclick="window.print()">
+          Print / Save Race Stem Fuel Card
+        </button>
+
+      </section>
+
     </div>
 
-    <p class="disclaimer">
-      *Note: Individual gastrointestinal (GI) tolerance varies widely. Higher carbohydrate rates (&gt;60g/hr for running, &gt;90g/hr for cycling) require dual-source carbs (Glucose:Fructose) and gut training in practice before major race events.
-    </p>
-  </div>
+    <!-- Science & FAQ Section -->
+    <section class="faq-section">
+      <h2 style="font-size: 1.5rem; font-weight: 800; text-align: center;">Bonk Prevention Science</h2>
+      <p style="color: var(--text-muted); text-align: center; margin-top: 6px;">Understanding the limits of human muscle glycogen and exogenous substrate absorption.</p>
+
+      <div class="faq-grid">
+        <div class="faq-card">
+          <h4>Why does bonking happen?</h4>
+          <p>Your body stores roughly 1,800 to 2,000 calories of glycogen in the liver and skeletal muscles. During Zone 3 or higher efforts, muscle glycogen depletes rapidly within 90 to 120 minutes. Once glycogen reserves empty, carbohydrate oxidation plummets, causing extreme neurological fatigue, weak contractions, and severe pacing drop.</p>
+        </div>
+
+        <div class="faq-card">
+          <h4>Why 90 grams of carbohydrate per hour?</h4>
+          <p>Intestinal SGLT1 transporters absorb glucose at a hard limit of approximately 60 grams per hour. Adding fructose utilizes GLUT5 transporters, unlocking up to 90 to 120 grams per hour without triggering gastrointestinal distress or stomach distress.</p>
+        </div>
+
+        <div class="faq-card">
+          <h4>How do short workouts vs ultra endurance compare?</h4>
+          <p>For efforts under 45 to 60 minutes, your baseline glycogen stores are more than sufficient. For workouts lasting over 90 minutes, starting exogenous intake immediately in minute 15 is crucial because intestinal absorption takes 20 to 30 minutes to enter your bloodstream.</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script>
-    let currentSport = 'cycling'; // 'cycling', 'running', 'swimming'
-    let unitSystem = 'metric';   // 'metric', 'imperial'
+    // State Variables
+    let isImperial = true;
+    let currentSport = 'run';
+    let isStravaSynced = true;
 
-    // Form elements
-    const durationInput = document.getElementById('duration');
-    const durationValue = document.getElementById('durationValue');
-    const intensityInput = document.getElementById('intensity');
-    const intensityLabel = document.getElementById('intensityLabel');
-    const elevationGroup = document.getElementById('elevationGroup');
-    const elevationInput = document.getElementById('elevation');
-    const elevationValue = document.getElementById('elevationValue');
-    const elevationLabel = document.getElementById('elevationLabel');
-    const climateInput = document.getElementById('climate');
-    const climateLabel = document.getElementById('climateLabel');
-    const sweatRateInput = document.getElementById('sweatRate');
-
-    // Output elements
-    const carbsPerHourEl = document.getElementById('carbsPerHour');
-    const fluidPerHourEl = document.getElementById('fluidPerHour');
-    const sodiumPerHourEl = document.getElementById('sodiumPerHour');
-    const totalCarbsEl = document.getElementById('totalCarbs');
-    const ratioBadgeEl = document.getElementById('ratioRecommendation');
-    const strategyListEl = document.getElementById('strategyList');
-
-    // Intensity options per sport
-    const sportIntensities = {
-      cycling: [
-        { value: 'easy', text: 'Zone 1-2: Recovery / Easy Spinning' },
-        { value: 'endurance', text: 'Zone 2: Steady Endurance / Base Ride', selected: true },
-        { value: 'tempo', text: 'Zone 3: Tempo / Sweetspot / Group Ride' },
-        { value: 'threshold', text: 'Zone 4+: Threshold / Intervals / Race' }
-      ],
-      running: [
-        { value: 'easy', text: 'Zone 1-2: Easy / Recovery Run' },
-        { value: 'endurance', text: 'Zone 2: Long Steady Run / Marathon Pace', selected: true },
-        { value: 'tempo', text: 'Zone 3: Threshold / Tempo / Half-Marathon' },
-        { value: 'threshold', text: 'Zone 4+: High Intensity / 5k-10k Pace / Intervals' }
-      ],
-      swimming: [
-        { value: 'easy', text: 'Easy Aerobic / Recovery Swim' },
-        { value: 'endurance', text: 'Moderate Distance / Pace Swim', selected: true },
-        { value: 'tempo', text: 'Hard Tempo / CSS Interval Training' },
-        { value: 'threshold', text: 'Open Water Race / High Intensity' }
-      ]
+    // Nutrition Product Data & Quantities
+    let products = {
+      gels: { name: 'Energy Gels', carbs: 25, sodium: 100, qty: 0, custom: false },
+      scoops: { name: 'Drink Mix Scoops', carbs: 40, sodium: 300, qty: 0, custom: false },
+      chews: { name: 'Chews / Stroopwafels', carbs: 20, sodium: 50, qty: 0, custom: false },
+      tabs: { name: 'Electrolyte Tablets', carbs: 0, sodium: 350, qty: 1, custom: false }
     };
 
-    // Climate options per sport
-    const sportClimates = {
-      cycling: [
-        { value: 'cool', text: 'Cool (< 15°C / 60°F)' },
-        { value: 'moderate', text: 'Moderate (15°C - 24°C / 60°F - 75°F)', selected: true },
-        { value: 'hot', text: 'Hot (25°C - 32°C / 76°F - 90°F)' },
-        { value: 'extreme', text: 'Extreme Heat (> 32°C / 90°F)' }
-      ],
-      running: [
-        { value: 'cool', text: 'Cool (< 12°C / 54°F)' },
-        { value: 'moderate', text: 'Moderate (12°C - 22°C / 55°F - 72°F)', selected: true },
-        { value: 'hot', text: 'Hot (23°C - 30°C / 73°F - 86°F)' },
-        { value: 'extreme', text: 'Extreme Heat (> 30°C / 86°F)' }
-      ],
-      swimming: [
-        { value: 'cool', text: 'Cool Water (< 20°C / 68°F)' },
-        { value: 'moderate', text: 'Standard Pool / Moderate OW (21°C - 26°C / 70°F - 79°F)', selected: true },
-        { value: 'hot', text: 'Warm Pool / Tropical OW (> 27°C / 80°F)' }
-      ]
-    };
+    let customProductCounter = 0;
 
-    function selectSport(sport) {
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      calculateFuel();
+
+      document.getElementById('btnUnits').addEventListener('click', toggleUnits);
+      document.getElementById('btnStravaSync').addEventListener('click', toggleStravaSync);
+    });
+
+    function toggleUnits() {
+      isImperial = !isImperial;
+      const btn = document.getElementById('btnUnits');
+      
+      if (isImperial) {
+        btn.textContent = "Imperial (mi, °F, oz)";
+        document.getElementById('distUnitLbl').textContent = "Miles";
+        document.getElementById('elevUnitLbl').textContent = "Feet";
+        document.getElementById('weightUnitLbl').textContent = "Lbs";
+        document.getElementById('unitFluid').textContent = "fl oz / hour";
+        
+        // Convert inputs to Imperial
+        document.getElementById('inpDistance').value = (parseFloat(document.getElementById('inpDistance').value) * 0.621371).toFixed(1);
+        document.getElementById('inpElevation').value = Math.round(parseFloat(document.getElementById('inpElevation').value) * 3.28084);
+        document.getElementById('inpWeight').value = Math.round(parseFloat(document.getElementById('inpWeight').value) * 2.20462);
+        document.getElementById('inpTemp').value = Math.round((parseFloat(document.getElementById('inpTemp').value) * 9/5) + 32);
+      } else {
+        btn.textContent = "Metric (km, °C, mL)";
+        document.getElementById('distUnitLbl').textContent = "Kilometers";
+        document.getElementById('elevUnitLbl').textContent = "Meters";
+        document.getElementById('weightUnitLbl').textContent = "Kilograms";
+        document.getElementById('unitFluid').textContent = "mL / hour";
+
+        // Convert inputs to Metric
+        document.getElementById('inpDistance').value = (parseFloat(document.getElementById('inpDistance').value) * 1.60934).toFixed(1);
+        document.getElementById('inpElevation').value = Math.round(parseFloat(document.getElementById('inpElevation').value) / 3.28084);
+        document.getElementById('inpWeight').value = Math.round(parseFloat(document.getElementById('inpWeight').value) / 2.20462);
+        document.getElementById('inpTemp').value = Math.round((parseFloat(document.getElementById('inpTemp').value) - 32) * 5/9);
+      }
+
+      calculateFuel();
+    }
+
+    function toggleStravaSync() {
+      isStravaSynced = !isStravaSynced;
+      const btn = document.getElementById('btnStravaSync');
+      const icon = document.getElementById('wearableStatusIcon');
+      const title = document.getElementById('wearableStatusTitle');
+      const sub = document.getElementById('wearableStatusSub');
+
+      if (isStravaSynced) {
+        btn.classList.add('active');
+        icon.textContent = '✓';
+        title.textContent = 'Wearable Sync Active';
+        sub.textContent = 'Auto adjusting sweat rate & baseline METs from recent Garmin/Strava activities.';
+      } else {
+        btn.classList.remove('active');
+        icon.textContent = '×';
+        title.textContent = 'Wearable Sync Offline';
+        sub.textContent = 'Manual override active. Connect Strava for dynamic sweat and metabolic tuning.';
+      }
+      calculateFuel();
+    }
+
+    function setSport(sport) {
       currentSport = sport;
+      document.querySelectorAll('.sport-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.sport === sport);
+      });
+      calculateFuel();
+    }
 
-      // Update Tab Styles
-      document.getElementById('tabCycling').classList.toggle('active', sport === 'cycling');
-      document.getElementById('tabRunning').classList.toggle('active', sport === 'running');
-      document.getElementById('tabSwimming').classList.toggle('active', sport === 'swimming');
+    function loadPreset(type) {
+      if (type === 'short_run') {
+        setSport('run');
+        document.getElementById('inpDuration').value = 30; // 30m
+        document.getElementById('inpDistance').value = isImperial ? 3.5 : 5.6;
+        document.getElementById('inpElevation').value = isImperial ? 150 : 45;
+        document.getElementById('inpTemp').value = isImperial ? 70 : 21;
+        document.getElementById('inpRPE').value = 6;
+      } else if (type === 'pool_swim') {
+        setSport('swim');
+        document.getElementById('inpDuration').value = 45; // 45m
+        document.getElementById('inpDistance').value = isImperial ? 1.5 : 2.4;
+        document.getElementById('inpElevation').value = 0;
+        document.getElementById('inpTemp').value = isImperial ? 78 : 25;
+        document.getElementById('inpRPE').value = 7;
+      } else if (type === 'marathon') {
+        setSport('run');
+        document.getElementById('inpDuration').value = 210; // 3h 30m
+        document.getElementById('inpDistance').value = isImperial ? 26.2 : 42.2;
+        document.getElementById('inpElevation').value = isImperial ? 450 : 137;
+        document.getElementById('inpTemp').value = isImperial ? 75 : 24;
+        document.getElementById('inpRPE').value = 7;
+      } else if (type === 'century') {
+        setSport('bike');
+        document.getElementById('inpDuration').value = 330; // 5h 30m
+        document.getElementById('inpDistance').value = isImperial ? 100 : 160.9;
+        document.getElementById('inpElevation').value = isImperial ? 4200 : 1280;
+        document.getElementById('inpTemp').value = isImperial ? 82 : 28;
+        document.getElementById('inpRPE').value = 6;
+      } else if (type === 'olympic') {
+        setSport('tri');
+        document.getElementById('inpDuration').value = 150; // 2h 30m
+        document.getElementById('inpDistance').value = isImperial ? 32 : 51.5;
+        document.getElementById('inpElevation').value = isImperial ? 800 : 244;
+        document.getElementById('inpTemp').value = isImperial ? 78 : 25;
+        document.getElementById('inpRPE').value = 8;
+      }
+      calculateFuel();
+    }
 
-      // Elevation visibility (Cycling & Running only)
-      if (sport === 'swimming') {
-        elevationGroup.classList.add('hidden');
-      } else {
-        elevationGroup.classList.remove('hidden');
+    /* Custom Product Builder Functions */
+    function toggleCustomForm() {
+      const form = document.getElementById('customForm');
+      form.classList.toggle('active');
+    }
+
+    function addCustomProduct() {
+      const nameInp = document.getElementById('custName').value.trim();
+      const carbsInp = parseInt(document.getElementById('custCarbs').value) || 0;
+      const sodiumInp = parseInt(document.getElementById('custSodium').value) || 0;
+
+      if (!nameInp) {
+        alert('Please provide a name for your custom product.');
+        return;
       }
 
-      // Populate Intensity
-      intensityInput.innerHTML = '';
-      sportIntensities[sport].forEach(opt => {
-        const option = document.createElement('option');
-        option.value = opt.value;
-        option.textContent = opt.text;
-        if (opt.selected) option.selected = true;
-        intensityInput.appendChild(option);
+      customProductCounter++;
+      const key = `custom_${customProductCounter}`;
+
+      products[key] = {
+        name: nameInp,
+        carbs: carbsInp,
+        sodium: sodiumInp,
+        qty: 1,
+        custom: true
+      };
+
+      // Create Element in Grid
+      const grid = document.getElementById('converterGrid');
+      const card = document.createElement('div');
+      card.className = 'product-counter';
+      card.id = `card-${key}`;
+      card.innerHTML = `
+        <button class="btn-remove-custom" onclick="removeCustomProduct('${key}')">×</button>
+        <h5>${nameInp}</h5>
+        <p>${carbsInp}g Carbs | ${sodiumInp}mg Sodium</p>
+        <div class="qty-controls">
+          <button class="btn-qty" onclick="changeQty('${key}', -1)">-</button>
+          <span class="qty-val" id="qty_${key}">1</span>
+          <button class="btn-qty" onclick="changeQty('${key}', 1)">+</button>
+        </div>
+      `;
+      grid.appendChild(card);
+
+      // Clear Form & Close
+      document.getElementById('custName').value = '';
+      document.getElementById('custCarbs').value = '';
+      document.getElementById('custSodium').value = '';
+      toggleCustomForm();
+
+      updateTally();
+    }
+
+    function removeCustomProduct(key) {
+      delete products[key];
+      const card = document.getElementById(`card-${key}`);
+      if (card) card.remove();
+      updateTally();
+    }
+
+    function changeQty(key, delta) {
+      if (!products[key]) return;
+      products[key].qty = Math.max(0, products[key].qty + delta);
+      
+      const qtyEl = document.getElementById(`qty_${key}`) || document.getElementById(`qty${key.charAt(0).toUpperCase() + key.slice(1)}`);
+      if (qtyEl) qtyEl.textContent = products[key].qty;
+
+      updateTally();
+    }
+
+    function updateTally() {
+      let plannedCarbs = 0;
+      let plannedSodium = 0;
+
+      Object.keys(products).forEach(k => {
+        plannedCarbs += products[k].carbs * products[k].qty;
+        plannedSodium += products[k].sodium * products[k].qty;
       });
 
-      // Populate Climate
-      climateInput.innerHTML = '';
-      climateLabel.textContent = sport === 'swimming' ? 'Water Temperature' : 'Climate / Temperature';
-      sportClimates[sport].forEach(opt => {
-        const option = document.createElement('option');
-        option.value = opt.value;
-        option.textContent = opt.text;
-        if (opt.selected) option.selected = true;
-        climateInput.appendChild(option);
-      });
+      document.getElementById('tallyCarbs').textContent = plannedCarbs + 'g';
+      document.getElementById('tallySodium').textContent = plannedSodium + 'mg';
 
-      updateElevationRange();
-      calculate();
-    }
+      const targetCarbs = parseInt(document.getElementById('valHourlyCarbs').textContent) || 0;
+      const statusEl = document.getElementById('tallyStatusText');
 
-    function setUnits(system) {
-      unitSystem = system;
-      document.getElementById('unitMetric').classList.toggle('active', system === 'metric');
-      document.getElementById('unitImperial').classList.toggle('active', system === 'imperial');
-
-      updateElevationRange();
-      calculate();
-    }
-
-    function updateElevationRange() {
-      const currentVal = parseFloat(elevationInput.value);
-
-      if (unitSystem === 'metric') {
-        elevationInput.min = "0";
-        elevationInput.max = "4000";
-        elevationInput.step = "100";
-        elevationLabel.textContent = "Elevation Gain (Meters)";
+      const carbDiff = plannedCarbs - targetCarbs;
+      if (Math.abs(carbDiff) <= 10) {
+        statusEl.textContent = "Targets Matched";
+        statusEl.className = "tally-status matched";
+      } else if (carbDiff < -10) {
+        statusEl.textContent = `Under target by ${Math.abs(carbDiff)}g carbs/hr`;
+        statusEl.className = "tally-status under";
       } else {
-        elevationInput.min = "0";
-        elevationInput.max = "13000";
-        elevationInput.step = "300";
-        elevationLabel.textContent = "Elevation Gain (Feet)";
+        statusEl.textContent = `Exceeds target by ${carbDiff}g carbs/hr`;
+        statusEl.className = "tally-status under";
       }
     }
 
-    function calculate() {
-      const duration = parseFloat(durationInput.value);
-      const intensity = intensityInput.value;
-      const climate = climateInput.value;
-      const sweatRate = sweatRateInput.value;
+    function calculateFuel() {
+      const durationMins = parseInt(document.getElementById('inpDuration').value);
+      const hours = durationMins / 60;
 
-      // Duration label
-      durationValue.textContent = `${duration} ${duration === 1 ? 'hr' : 'hrs'}`;
-
-      // Elevation reading
-      let rawElev = parseFloat(elevationInput.value) || 0;
-      let elevMeters = unitSystem === 'metric' ? rawElev : rawElev * 0.3048;
-
-      if (unitSystem === 'metric') {
-        elevationValue.textContent = `${rawElev.toLocaleString()} m`;
+      // Update Duration Display text
+      const hrs = Math.floor(durationMins / 60);
+      const mins = durationMins % 60;
+      if (hrs > 0) {
+        document.getElementById('durDisp').textContent = `${hrs}h ${mins > 0 ? mins + 'm' : ''}`;
       } else {
-        elevationValue.textContent = `${rawElev.toLocaleString()} ft`;
+        document.getElementById('durDisp').textContent = `${mins}m`;
       }
 
-      let carbsPerHour = 0;
-      let baseFluid = 500; // ml/hr
-      let baseSodium = 500; // mg/hr
-      let ratioText = "Single Source OK";
+      const tempVal = parseInt(document.getElementById('inpTemp').value);
+      document.getElementById('tempDisp').textContent = `${tempVal} °${isImperial ? 'F' : 'C'}`;
 
-      // ----------------------------------------------------------------
-      // 1. CARBOHYDRATE CALCULATION BY SPORT & INTENSITY & DURATION
-      // ----------------------------------------------------------------
-      if (currentSport === 'cycling') {
-        if (duration < 1.0) {
-          carbsPerHour = intensity === 'threshold' ? 30 : 0;
-        } else if (duration < 2.0) {
-          if (intensity === 'easy') carbsPerHour = 30;
-          else if (intensity === 'endurance') carbsPerHour = 45;
-          else if (intensity === 'tempo') carbsPerHour = 60;
-          else if (intensity === 'threshold') carbsPerHour = 75;
-        } else if (duration < 3.5) {
-          if (intensity === 'easy') carbsPerHour = 40;
-          else if (intensity === 'endurance') carbsPerHour = 60;
-          else if (intensity === 'tempo') carbsPerHour = 75;
-          else if (intensity === 'threshold') carbsPerHour = 90;
-        } else {
-          if (intensity === 'easy') carbsPerHour = 50;
-          else if (intensity === 'endurance') carbsPerHour = 75;
-          else if (intensity === 'tempo') carbsPerHour = 90;
-          else if (intensity === 'threshold') carbsPerHour = 100;
-        }
+      const tempInF = isImperial ? tempVal : (tempVal * 9/5) + 32;
 
-        // Elevation Gain Factor for Cycling (+10-15g/hr for steep climbing)
-        const climbDensityPerHour = elevMeters / duration; // meters per hour
-        if (climbDensityPerHour > 600 && carbsPerHour > 0) carbsPerHour += 10;
-        if (climbDensityPerHour > 1000 && carbsPerHour > 0) carbsPerHour += 10;
+      const rpe = parseInt(document.getElementById('inpRPE').value);
+      const rpeLabels = [
+        'Zone 1: Very Light Recovery',
+        'Zone 1: Active Recovery',
+        'Zone 2: Endurance Pace',
+        'Zone 2: Aerobic Base',
+        'Zone 3: Moderate Steady',
+        'Zone 3: Tempo Pace',
+        'Zone 3: Threshold Effort',
+        'Zone 4: Hard Race Pace',
+        'Zone 4: Very Hard Pace',
+        'Zone 5: All Out Max Effort'
+      ];
+      document.getElementById('rpeDisp').textContent = rpeLabels[rpe - 1];
 
-      } else if (currentSport === 'running') {
-        // Running has lower stomach tolerance due to impact/sloshing
-        if (duration < 1.0) {
-          carbsPerHour = intensity === 'threshold' ? 25 : 0;
-        } else if (duration < 2.0) {
-          if (intensity === 'easy') carbsPerHour = 25;
-          else if (intensity === 'endurance') carbsPerHour = 40;
-          else if (intensity === 'tempo') carbsPerHour = 50;
-          else if (intensity === 'threshold') carbsPerHour = 60;
-        } else {
-          if (intensity === 'easy') carbsPerHour = 35;
-          else if (intensity === 'endurance') carbsPerHour = 50;
-          else if (intensity === 'tempo') carbsPerHour = 65;
-          else if (intensity === 'threshold') carbsPerHour = 75;
-        }
+      const rawWeight = parseFloat(document.getElementById('inpWeight').value) || 154;
+      const weightKg = isImperial ? rawWeight * 0.453592 : rawWeight;
 
-        // Elevation Gain Factor for Running
-        const climbDensityPerHour = elevMeters / duration;
-        if (climbDensityPerHour > 400 && carbsPerHour > 0) carbsPerHour += 10;
+      const sweatProfile = document.getElementById('inpSweatRate').value;
 
-      } else if (currentSport === 'swimming') {
-        // Swimming fueling is typically pre-swim or feeding station for open water > 1 hour
-        if (duration < 1.0) {
-          carbsPerHour = 0;
-        } else if (duration < 2.0) {
-          carbsPerHour = 30;
-        } else {
-          carbsPerHour = 50;
-        }
-      }
-
-      // Cap max carbs per hour based on physiology
-      const maxCarbCap = currentSport === 'cycling' ? 120 : (currentSport === 'running' ? 85 : 60);
-      carbsPerHour = Math.min(carbsPerHour, maxCarbCap);
-
-      // Dual Source Carbohydrate recommendation
-      if (carbsPerHour > 80) {
-        ratioText = "1:0.8 Maltodextrin:Fructose";
-      } else if (carbsPerHour >= 60) {
-        ratioText = "2:1 Glucose:Fructose";
-      } else if (carbsPerHour > 0) {
-        ratioText = "Standard Carbs";
+      // --- 1. Carbohydrate Calculation ---
+      let hourlyCarbs = 0;
+      if (durationMins <= 45) {
+        hourlyCarbs = 0; // Short workouts do not require exogenous carbs
+      } else if (durationMins <= 60) {
+        hourlyCarbs = rpe > 7 ? 30 : 0;
+      } else if (durationMins <= 120) {
+        hourlyCarbs = 45 + (rpe > 6 ? 15 : 0);
+      } else if (durationMins <= 180) {
+        hourlyCarbs = 60 + (rpe > 6 ? 15 : 0);
       } else {
-        ratioText = "Water Only";
+        hourlyCarbs = 75 + (rpe >= 7 ? 15 : 0);
       }
 
-      // ----------------------------------------------------------------
-      // 2. FLUID INTAKE CALCULATION
-      // ----------------------------------------------------------------
-      if (currentSport === 'swimming') {
-        if (climate === 'cool') baseFluid = 300;
-        else if (climate === 'moderate') baseFluid = 450;
-        else if (climate === 'hot') baseFluid = 650;
+      if (currentSport === 'swim') hourlyCarbs = Math.min(hourlyCarbs, 45); // GI constraints while swimming
+
+      // --- 2. Fluid / Hydration Calculation ---
+      let baseSweatLitersPerHour = 0.8;
+      if (sweatProfile === 'low') baseSweatLitersPerHour = 0.6;
+      if (sweatProfile === 'avg') baseSweatLitersPerHour = 1.0;
+      if (sweatProfile === 'heavy') baseSweatLitersPerHour = 1.4;
+      if (sweatProfile === 'salty') baseSweatLitersPerHour = 1.7;
+
+      // Temperature adjustment (+1.5% sweat rate per degree F over 68°F)
+      if (tempInF > 68) {
+        baseSweatLitersPerHour *= (1 + ((tempInF - 68) * 0.015));
+      }
+
+      // Weight adjustment
+      baseSweatLitersPerHour *= (weightKg / 70);
+
+      let hourlyFluidOz = baseSweatLitersPerHour * 33.814;
+      let hourlyFluidML = baseSweatLitersPerHour * 1000;
+
+      // --- 3. Sodium / Electrolyte Calculation ---
+      let sodiumMgPerLiter = 700;
+      if (sweatProfile === 'salty') sodiumMgPerLiter = 1100;
+      if (sweatProfile === 'low') sodiumMgPerLiter = 500;
+
+      let hourlySodiumMg = baseSweatLitersPerHour * sodiumMgPerLiter;
+
+      // --- 4. Calorie Burn Calculation ---
+      let met = 7.0;
+      if (currentSport === 'run') met = 6.0 + (rpe * 0.9);
+      if (currentSport === 'bike') met = 4.5 + (rpe * 0.85);
+      if (currentSport === 'swim') met = 5.0 + (rpe * 0.7);
+      if (currentSport === 'tri') met = 6.0 + (rpe * 0.8);
+
+      let hourlyCal = met * weightKg;
+      let totalCalories = hourlyCal * hours;
+
+      // Set Display Values
+      document.getElementById('valHourlyCarbs').textContent = Math.round(hourlyCarbs);
+      document.getElementById('subCarbTotal').textContent = `Total: ${Math.round(hourlyCarbs * hours)}g`;
+
+      if (isImperial) {
+        document.getElementById('valHourlyFluid').textContent = Math.round(hourlyFluidOz);
+        document.getElementById('subFluidTotal').textContent = `Total: ${Math.round(hourlyFluidOz * hours)} oz`;
       } else {
-        if (climate === 'cool') baseFluid = 400;
-        else if (climate === 'moderate') baseFluid = 600;
-        else if (climate === 'hot') baseFluid = 800;
-        else if (climate === 'extreme') baseFluid = 1000;
-
-        if (intensity === 'tempo' || intensity === 'threshold') baseFluid += 100;
+        document.getElementById('valHourlyFluid').textContent = Math.round(hourlyFluidML);
+        document.getElementById('subFluidTotal').textContent = `Total: ${(hourlyFluidML * hours / 1000).toFixed(1)} L`;
       }
 
-      // ----------------------------------------------------------------
-      // 3. SODIUM INTAKE CALCULATION
-      // ----------------------------------------------------------------
-      if (sweatRate === 'low') baseSodium = 350;
-      else if (sweatRate === 'normal') baseSodium = 600;
-      else if (sweatRate === 'heavy') baseSodium = 900;
+      document.getElementById('valHourlySodium').textContent = Math.round(hourlySodiumMg);
+      document.getElementById('subSodiumTotal').textContent = `Total: ${Math.round(hourlySodiumMg * hours).toLocaleString()} mg`;
 
-      if (climate === 'hot' || climate === 'extreme') baseSodium += 200;
+      document.getElementById('valCalories').textContent = Math.round(totalCalories).toLocaleString();
+      document.getElementById('subCalRate').textContent = `~${Math.round(hourlyCal)} kcal/hr`;
 
-      // Totals
-      const totalCarbs = Math.round(carbsPerHour * duration);
+      // Update Stem Card
+      document.getElementById('cardSport').textContent = currentSport.toUpperCase();
+      document.getElementById('cardCarbs').textContent = `${Math.round(hourlyCarbs)}g / hr`;
+      document.getElementById('cardFluid').textContent = isImperial ? `${Math.round(hourlyFluidOz)} oz / hr` : `${Math.round(hourlyFluidML)} mL / hr`;
+      document.getElementById('cardSodium').textContent = `${Math.round(hourlySodiumMg)} mg / hr`;
 
-      // Display Unit Conversions
-      let displayFluid = baseFluid;
-      let fluidUnitText = "ml/hr";
-
-      if (unitSystem === 'imperial') {
-        displayFluid = Math.round(baseFluid * 0.033814); // ml to oz
-        fluidUnitText = "oz/hr";
+      // Environmental Alert Banner Logic
+      const alertBox = document.getElementById('envAlertBox');
+      if (durationMins <= 45) {
+        alertBox.innerHTML = `<strong>Short Duration Effort (${durationMins} mins):</strong> Muscle glycogen stores are sufficient. Exogenous carb fueling is unnecessary. Focus on hydration.`;
+        alertBox.style.display = 'flex';
+      } else if (tempInF >= 82) {
+        alertBox.innerHTML = `<strong>Heat Warning (${tempVal}°):</strong> High temperatures increase fluid loss. Increase sodium concentration to prevent cramping and hyponatremia.`;
+        alertBox.style.display = 'flex';
+      } else if (hourlyCarbs >= 75) {
+        alertBox.innerHTML = `<strong>High Intake Target (${Math.round(hourlyCarbs)}g/hr):</strong> Requires dual-source carbs (Glucose:Fructose 1:0.8) for optimal absorption without GI distress.`;
+        alertBox.style.display = 'flex';
+      } else {
+        alertBox.innerHTML = `<strong>Optimal Strategy:</strong> Consume fuel in small portions every 15 to 20 minutes to maintain steady blood glucose levels.`;
+        alertBox.style.display = 'flex';
       }
 
-      // DOM Updates
-      carbsPerHourEl.innerHTML = `${carbsPerHour}<span class="box-unit">g/hr</span>`;
-      ratioBadgeEl.textContent = ratioText;
-      fluidPerHourEl.innerHTML = `${displayFluid}<span class="box-unit">${fluidUnitText}</span>`;
-      sodiumPerHourEl.innerHTML = `${baseSodium}<span class="box-unit">mg/hr</span>`;
-      totalCarbsEl.innerHTML = `${totalCarbs}<span class="box-unit">g</span>`;
-
-      // Practical Fueling Mix Output
-      updateStrategyList(carbsPerHour, baseFluid, baseSodium, duration);
+      updateTally();
+      generateTimeline(durationMins, hourlyCarbs, isImperial ? hourlyFluidOz : hourlyFluidML, hourlySodiumMg);
     }
 
-    function updateStrategyList(carbs, fluidMl, sodium, duration) {
-      strategyListEl.innerHTML = '';
+    function generateTimeline(totalMins, hourlyCarbs, hourlyFluid, hourlySodium) {
+      const listEl = document.getElementById('timelineList');
+      listEl.innerHTML = '';
 
-      const isImperial = unitSystem === 'imperial';
-      const bottleVolume = isImperial ? '20–24 oz' : '600–750 ml';
-
-      let items = [];
-
-      if (currentSport === 'cycling') {
-        if (carbs === 0) {
-          items.push('Plain water or light electrolyte drink is sufficient for this duration.');
-          items.push('Consume a carbohydrate-rich post-ride meal within 45 minutes.');
-        } else if (carbs <= 45) {
-          items.push(`1 Bottle (${bottleVolume}) with electrolyte mix.`);
-          items.push(`1 Energy Gel or 1 Energy Bar / Banana per hour (~25–30g carbs).`);
-        } else if (carbs <= 75) {
-          items.push(`1 Bottle (${bottleVolume}) with 30g Carb Drink Mix + Sodium.`);
-          items.push(`1–2 Energy Gels or Chews per hour to hit the ${carbs}g target.`);
-        } else {
-          items.push(`1 High-Carb Drink Mix Bottle (~60g carbs + sodium).`);
-          items.push(`1–2 Hydrogel Energy Gels per hour to reach ${carbs}g/hr.`);
-          items.push(`Sip steadily every 10–12 minutes; do not gulp large volumes at once.`);
-        }
-      } else if (currentSport === 'running') {
-        if (carbs === 0) {
-          items.push('Water is sufficient for short easy runs. Pre-hydrate before setting out.');
-        } else if (carbs <= 45) {
-          items.push(`Carry a handheld flask or hydration vest (${isImperial ? '16-20 oz' : '500 ml'} water/electrolytes).`);
-          items.push(`Take 1-2 Hydrogel Gels per hour with water.`);
-        } else {
-          items.push(`Use liquid carbohydrate mix in a soft flask or carry isotonic gels.`);
-          items.push(`Consume 1 gel (~25g) every 20-25 minutes.`);
-          items.push(`Stick strictly to liquids & easy-digesting gels to avoid stomach sloshing.`);
-        }
-      } else if (currentSport === 'swimming') {
-        if (duration < 1.0) {
-          items.push('Drink 300-500ml water or light electrolyte drink 20 minutes before pool entry.');
-          items.push('No in-water fueling necessary for swims under 1 hour.');
-        } else {
-          items.push('Pre-fuel: Consume 1 Gel + 200ml water 15 mins prior to start.');
-          items.push('Feed Station: Pause every 30 mins for a quick liquid carb feed (25-30g) + sodium.');
-        }
+      if (totalMins <= 45) {
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.innerHTML = `
+          <div class="timeline-time">Short Workout Strategy (${totalMins} mins)</div>
+          <div class="timeline-action">
+            <strong>Hydration &amp; Hydration Only</strong>
+            <ul>
+              <li>Sip 10-16 oz electrolyte fluid before starting.</li>
+              <li>No mid-workout carbs required for efforts under 45 minutes.</li>
+              <li>Rehydrate after finish with 16 oz water.</li>
+            </ul>
+          </div>
+        `;
+        listEl.appendChild(item);
+        return;
       }
 
-      items.forEach(text => {
-        const li = document.createElement('li');
-        li.className = 'strategy-item';
-        li.innerHTML = `<span class="icon">•</span> <span>${text}</span>`;
-        strategyListEl.appendChild(li);
-      });
+      // T - 60 min Pre Workout
+      const preItem = document.createElement('div');
+      preItem.className = 'timeline-item';
+      preItem.innerHTML = `
+        <div class="timeline-time">60 Minutes Prior</div>
+        <div class="timeline-action">
+          <strong>Pre-Hydration &amp; Glycogen Top-Off</strong>
+          <ul>
+            <li>Drink 16-20 oz water with 300mg sodium.</li>
+            <li>Consume 40-50g simple carbs (e.g. 1 banana + toast or 1 drink scoop).</li>
+            <li>Avoid high fat and protein to ensure rapid gastric emptying.</li>
+          </ul>
+        </div>
+      `;
+      listEl.appendChild(preItem);
+
+      // Hourly blocks during race
+      const hoursCount = Math.min(6, Math.ceil(totalMins / 60));
+      for (let i = 1; i <= hoursCount; i++) {
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        
+        const startMin = (i - 1) * 60;
+        const endMin = Math.min(i * 60, totalMins);
+
+        const fluidText = isImperial 
+          ? `${Math.round(hourlyFluid / 3)} oz every 20 minutes` 
+          : `${Math.round(hourlyFluid / 3)} mL every 20 minutes`;
+
+        item.innerHTML = `
+          <div class="timeline-time">Hour ${i} (${startMin}m to ${endMin}m)</div>
+          <div class="timeline-action">
+            <strong>Target: ${Math.round(hourlyCarbs)}g Carbs | ${Math.round(hourlySodium / 3)}mg Sodium per 20m</strong>
+            <ul>
+              <li><strong>Minute ${startMin + 15}:</strong> Take 1 Gel/Chew portion + sip ${fluidText}.</li>
+              <li><strong>Minute ${startMin + 35}:</strong> Alternate with electrolyte drink mix.</li>
+              <li><strong>Minute ${startMin + 50}:</strong> Water sip to rinse oral cavity and maintain hydration balance.</li>
+            </ul>
+          </div>
+        `;
+        listEl.appendChild(item);
+      }
+
+      // Recovery Block
+      const postItem = document.createElement('div');
+      postItem.className = 'timeline-item';
+      postItem.innerHTML = `
+        <div class="timeline-time">Post Workout (Within 30 Mins)</div>
+        <div class="timeline-action">
+          <strong>Rapid Glycogen &amp; Muscle Repair Window</strong>
+          <ul>
+            <li>Consume 4:1 Carbohydrate to Protein recovery mix (e.g. 60g carbs + 15g whey/plant protein).</li>
+            <li>Replace 125% of fluid weight deficit lost during effort over the next 2 hours.</li>
+          </ul>
+        </div>
+      `;
+      listEl.appendChild(postItem);
     }
-
-    // Event Listeners
-    durationInput.addEventListener('input', calculate);
-    intensityInput.addEventListener('change', calculate);
-    elevationInput.addEventListener('input', calculate);
-    climateInput.addEventListener('change', calculate);
-    sweatRateInput.addEventListener('change', calculate);
-
-    // Initial setup
-    selectSport('cycling');
   </script>
 </body>
 </html>
